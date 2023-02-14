@@ -1,6 +1,7 @@
 #include "ZLEngine/Graphics/GraphicsEngine.h"
-#include <iostream>
 #include "GLEW/glew.h"
+#include "ZLEngine/Graphics/VertexArrayObject.h"
+
 
 using namespace std; 
 
@@ -8,17 +9,19 @@ GraphicsEngine::GraphicsEngine()
 {
 	SdlWindow = nullptr;
 	SdlGLContext = NULL;
+	bWireframeMode = false;
 }
 
 GraphicsEngine::~GraphicsEngine()
 {
-	cout << "Destroyed Graphics Engine... " << endl; 
 	//this will handle deleting the SDL window from memory
 	SDL_DestroyWindow(SdlWindow);
 	//destroy the GL context for SDL
 	SDL_GL_DeleteContext(SdlGLContext);
 	//close the SDL framework
 	SDL_Quit();
+
+	cout << "Destroyed Graphics Engine... " << endl;
 }
 
 bool GraphicsEngine::InitGE(const char* WTitle, bool bFullScreen, int WWidth, int WHeight)
@@ -45,7 +48,6 @@ bool GraphicsEngine::InitGE(const char* WTitle, bool bFullScreen, int WWidth, in
 		FullscreenFlag = SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN;
 	}
 	else {
-
 		FullscreenFlag = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 	}
 
@@ -101,7 +103,48 @@ void GraphicsEngine::ClearGraphics()
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void GraphicsEngine::Draw()
+{
+	ClearGraphics();
+
+	HandleWireframeMode(true);
+
+	// TODO: Add anything that renders between these two functions
+	for (VAOPtr VAO : VAOs) {
+		//draw each VAO
+		VAO->Draw();
+	}
+
+	PresentGraphics();
+}
+
 SDL_Window* GraphicsEngine::GetWindow() const
 {
 	return SdlWindow;
+}
+
+void GraphicsEngine::CreateVAO()
+{
+	//create a new VAO as a shared pointer
+	VAOPtr NewVAO = make_shared<VAO>();
+	//add it to the stack
+	VAOs.push_back(NewVAO);
+}
+
+void GraphicsEngine::HandleWireframeMode(bool bShowWireframeMode)
+{
+	// if wireframe mode is set, change it and vice versa
+	if (bShowWireframeMode != bWireframeMode) {
+		bWireframeMode = bShowWireframeMode;
+
+		//change how OpenGL renders between the vertices
+		if (bWireframeMode) {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else {
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+
+		cout << "Wireframe mode updated..." << endl;
+	}
 }

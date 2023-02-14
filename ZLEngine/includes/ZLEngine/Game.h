@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
 #include "ZLEngine/Graphics/GraphicsEngine.h"
-using namespace std;
+#include "CoreMinimal.h"
 
 class Game {
 
@@ -43,9 +42,5 @@ private:
 
 	bool bIsGameOver;
 
-	GraphicsEngine* Graphics;
-
-
-
-	
+	GraphicsEnginePtr Graphics;
 };

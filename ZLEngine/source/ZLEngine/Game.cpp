@@ -19,7 +19,7 @@ void Game::Start(const char* WTitle, bool bFullScreen, int WWidth, int WHeight)
 
 	//if the window fails to load then bIsGameOver = true
 
-	Graphics = new GraphicsEngine();
+	Graphics = make_shared<GraphicsEngine>();
 
 	if (!Graphics->InitGE(WTitle, bFullScreen, WWidth, WHeight)) {
 		bIsGameOver = true;
@@ -37,13 +37,19 @@ Game::Game()
 }
 Game::~Game()
 {
-
+	/*since nothing else is storing graphics in memory 
+	this will destroy the graphics from the memory*/
+	Graphics = nullptr;
 	cout << "Game Over!" << endl;
 
 }
 
 void Game::Run()
 {
+	if (!bIsGameOver) {
+		//add a VAO to the stack
+		Graphics->CreateVAO();
+	}
 	//as long as the game isn't over run the loop
 	while (!bIsGameOver) {
 		//make sure we process user inputs
@@ -63,6 +69,19 @@ void Game::Run()
 void Game::ProcessInput()
 {
 	//TODO: Handle inputs
+	SDL_Event PollEvent;
+
+	//this is waiting for inputs to be pressed
+	while (SDL_PollEvent(&PollEvent)) {
+		//checking what input was pressed
+		switch (PollEvent.type) {
+		case SDL_QUIT: //on close button pressed
+			bIsGameOver = true;
+			break;
+		default:
+			break;
+		} 
+	}
 }
 
 void Game::Update()
@@ -73,6 +92,7 @@ void Game::Update()
 void Game::Draw()
 {
 	//TODO: Draw graphics to screen
+	Graphics->Draw();
 }
 
 void Game::CloseGame()

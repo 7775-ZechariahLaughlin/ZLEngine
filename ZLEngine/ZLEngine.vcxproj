@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -134,14 +134,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="includes\stb_image\stb_image.h" />
+    <ClInclude Include="includes\ZLEngine\CoreMinimal.h" />
     <ClInclude Include="includes\ZLEngine\Game.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\GraphicsEngine.h" />
+    <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game\Source.cpp" />
     <ClCompile Include="source\stb_image\stb_image.cpp" />
     <ClCompile Include="source\ZLEngine\Game.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

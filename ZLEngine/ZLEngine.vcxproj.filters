@@ -24,6 +24,12 @@
     <ClInclude Include="includes\ZLEngine\Graphics\GraphicsEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\CoreMinimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\stb_image\stb_image.cpp">
@@ -36,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\ZLEngine\Graphics\GraphicsEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
