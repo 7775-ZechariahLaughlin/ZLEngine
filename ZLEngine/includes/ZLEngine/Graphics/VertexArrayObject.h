@@ -2,10 +2,10 @@
 #include "ZLEngine/CoreMinimal.h"
 
 const PositionMatrix TrianglePositions{
-	// x	// y	// z
-	-0.5f,	-0.5f,	0.0f, //bottom left
-	 0.5f,	-0.5f,	0.0f, //bottom right
-	 0.0f,	 0.5f,	0.0f  //top middle
+	// x	// y	// z	//R	 //G  //B
+	-0.5f,	-0.5f,	0.0f,	1.0f,0.0f,0.0f,	//bottom left
+	 0.5f,	-0.5f,	0.0f,	0.0f,1.0f,0.0f,	//bottom right
+	 0.0f,	 0.5f,	0.0f,	0.0f,0.0f,1.0f,	//top middle
 };
 
 const IndicesMatrix TriangleIndices{
@@ -13,12 +13,11 @@ const IndicesMatrix TriangleIndices{
 };
 
 const PositionMatrix PolyPositions{
-	// x	// y	// z
-	-0.5f,	-0.5f,	0.0f, //bottom left
-	 0.5f,	-0.5f,	0.0f, //bottom right
-	 0.5f,	 0.5f,	0.0f, //top right
-	-0.5f,	 0.5f,  0.0f  //top left
-
+	// x	// y	// z	//R	 //G  //B
+	-0.5f,	-0.5f,	0.0f,	0.0f,1.0f,0.0f,	//bottom left
+	 0.5f,	-0.5f,	0.0f,	0.0f,1.0f,0.0f,	//bottom right
+	 0.5f,	 0.5f,	0.0f,	0.0f,1.0f,0.0f,	//top right
+	-0.5f,	 0.5f,  0.0f,	0.0f,1.0f,0.0f	//top left
 };
 
 const IndicesMatrix PolyIndices{
@@ -53,7 +52,7 @@ const IndicesMatrix CircleIndices{
 class VertexArrayObject {
 
 public: 
-	VertexArrayObject();
+	VertexArrayObject(GeometricShapes ChosenShape);
 	~VertexArrayObject();
 
 	void Draw();

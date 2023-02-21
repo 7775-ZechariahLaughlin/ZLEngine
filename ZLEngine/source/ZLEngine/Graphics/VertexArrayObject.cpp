@@ -1,12 +1,34 @@
 #include "ZLEngine/Graphics/VertexArrayObject.h"
 #include "GLEW/glew.h"
 
-VertexArrayObject::VertexArrayObject()
+VertexArrayObject::VertexArrayObject(GeometricShapes ChosenShape)
 {
 	ID = EAB = VAB = 0;
 
-	Shape.PositionMatrix = CirclePositions;
-	Shape.IndicesMatrix = CircleIndices;
+	// localised version of chosen matrices
+	PositionMatrix ChosenPositions = PositionMatrix();
+	IndicesMatrix ChosenIndices = IndicesMatrix();
+
+	// switch the chosen matrices depending on the selected geometric shape type
+	switch (ChosenShape) {
+	case GeometricShapes::Triangle: 
+		ChosenPositions = TrianglePositions;
+		ChosenIndices = TriangleIndices;
+		break;
+	case GeometricShapes::Polygon: 
+		ChosenPositions = PolyPositions;
+		ChosenIndices = PolyIndices;
+		break;
+	case GeometricShapes::Circle: 
+		ChosenPositions = CirclePositions;
+		ChosenIndices = CircleIndices;
+		break;
+	default:
+		break;
+	}
+
+	Shape.PositionMatrix = ChosenPositions;
+	Shape.IndicesMatrix = ChosenIndices;
 
 	// create the ID for our VAO
 	glGenVertexArrays(1, &ID);
@@ -49,14 +71,26 @@ VertexArrayObject::VertexArrayObject()
 		0,					// Data Set - 0 = the first data set in the array
 		3,					// How many numbers in our matrix to make a triangle
 		GL_FLOAT, GL_FALSE, // data type, whether you want to normalise the values
-		sizeof(float) * 3,	// stride - the length it takes to get to each number
+		sizeof(float) * 6,	// stride - the length it takes to get to each number
 		(void*)0			// offset of how many numbers to skip in the matrix
 	);
 
-	//enable the vertex array
+	// enable the vertex array
 	glEnableVertexAttribArray(0);
 
-	//clear the buffer
+	// assign the colour to the shader
+	glVertexAttribPointer(
+		1,							// Data Set - 1 = the second data set in the array
+		3,							// How many numbers in our matrix
+		GL_FLOAT, GL_FALSE,			// data type, whether you want to normalise the values
+		sizeof(float) * 6,			// stride - the length it takes to get to each number
+		(void*)(3 * sizeof(float))	// offset of how many numbers to skip in the matrix
+	);
+
+	//enabling the colour array
+	glEnableVertexAttribArray(1);
+
+	// clear the buffer
 	glBindVertexArray(0);
 }
 

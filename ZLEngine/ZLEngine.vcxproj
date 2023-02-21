@@ -137,6 +137,7 @@
     <ClInclude Include="includes\ZLEngine\CoreMinimal.h" />
     <ClInclude Include="includes\ZLEngine\Game.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\GraphicsEngine.h" />
+    <ClInclude Include="includes\ZLEngine\Graphics\ShaderProgram.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
@@ -144,7 +145,12 @@
     <ClCompile Include="source\stb_image\stb_image.cpp" />
     <ClCompile Include="source\ZLEngine\Game.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="source\ZLEngine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game\shaders\SimpleShader\SimpleShader.sfrag" />
+    <None Include="game\shaders\SimpleShader\SimpleShader.svert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

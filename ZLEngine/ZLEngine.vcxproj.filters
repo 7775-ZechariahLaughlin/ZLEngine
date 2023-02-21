@@ -30,6 +30,9 @@
     <ClInclude Include="includes\ZLEngine\CoreMinimal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\ZLEngine\Graphics\ShaderProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\stb_image\stb_image.cpp">
@@ -47,5 +50,12 @@
     <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ZLEngine\Graphics\ShaderProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game\shaders\SimpleShader\SimpleShader.svert" />
+    <None Include="game\shaders\SimpleShader\SimpleShader.sfrag" />
   </ItemGroup>
 </Project>

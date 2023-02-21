@@ -47,8 +47,15 @@ Game::~Game()
 void Game::Run()
 {
 	if (!bIsGameOver) {
+		//create a shader
+		Graphics->CreateShader({
+			L"game/shaders/SimpleShader/SimpleShader.svert",
+			L"game/shaders/SimpleShader/SimpleShader.sfrag"
+			});
 		//add a VAO to the stack
-		Graphics->CreateVAO();
+		Graphics->CreateVAO(GeometricShapes::Polygon);
+		Graphics->CreateVAO(GeometricShapes::Triangle);
+
 	}
 	//as long as the game isn't over run the loop
 	while (!bIsGameOver) {

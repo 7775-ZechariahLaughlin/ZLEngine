@@ -1,9 +1,9 @@
 #include "ZLEngine/Graphics/GraphicsEngine.h"
 #include "GLEW/glew.h"
 #include "ZLEngine/Graphics/VertexArrayObject.h"
-
-
-using namespace std; 
+#include "ZLEngine/Graphics/ShaderProgram.h"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -32,10 +32,10 @@ bool GraphicsEngine::InitGE(const char* WTitle, bool bFullScreen, int WWidth, in
 		return false;
 	}
 
-	//use OpenGL 3.1 and set default attributes
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	//use OpenGL 4.6 compatibility and set default attributes
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -107,12 +107,36 @@ void GraphicsEngine::Draw()
 {
 	ClearGraphics();
 
-	HandleWireframeMode(true);
+	HandleWireframeMode(false);
 
+	zluint index = 0;
 	// TODO: Add anything that renders between these two functions
 	for (VAOPtr VAO : VAOs) {
+		Shader->RunShader();
+
+		//move the object
+		glm::mat4 transform = glm::mat4(1.0f);
+
+		if (index == 0) { // Square
+			//move in the x, y or, z direction based on the amount added
+			transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
+			// radians is the rotation amount
+			// vec3 is the direction to rotate in
+			transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 1.0f));
+		} 
+		else if (index == 1){ // Triangle
+			transform = glm::translate(transform, glm::vec3(-0.5f, 0.0f, 0.0f));
+			// x and y will work for our 2D shapes
+			// z must be larger than 0 or you won't see the object (1 is default)
+			transform = glm::scale(transform, glm::vec3(1.25f, 1.25f, 1.0f));
+		}
+
+		Shader->SetMat4("transform", transform);
 		//draw each VAO
 		VAO->Draw();
+
+		index++;
 	}
 
 	PresentGraphics();
@@ -123,12 +147,26 @@ SDL_Window* GraphicsEngine::GetWindow() const
 	return SdlWindow;
 }
 
-void GraphicsEngine::CreateVAO()
+void GraphicsEngine::CreateVAO(GeometricShapes Shape)
 {
 	//create a new VAO as a shared pointer
-	VAOPtr NewVAO = make_shared<VAO>();
+	VAOPtr NewVAO = make_shared<VAO>(Shape);
 	//add it to the stack
 	VAOs.push_back(NewVAO);
+}
+
+void GraphicsEngine::CreateShader(VFShaderParams ShaderFilePaths)
+{
+	// create a new shader class
+	ShaderPtr NewShader = make_shared<ShaderProgram>();
+
+	// initialise the shader into OpenGL using the file paths
+	NewShader->InitVFShader(ShaderFilePaths);
+
+	// add the shader to our graphics engine
+	Shader = NewShader;
+
+
 }
 
 void GraphicsEngine::HandleWireframeMode(bool bShowWireframeMode)
