@@ -23,6 +23,9 @@ VertexArrayObject::VertexArrayObject(GeometricShapes ChosenShape)
 		ChosenPositions = CirclePositions;
 		ChosenIndices = CircleIndices;
 		break;
+	case GeometricShapes::Pentagon:
+		ChosenPositions = PentagonPositions;
+		ChosenIndices = PentagonIndices;
 	default:
 		break;
 	}
