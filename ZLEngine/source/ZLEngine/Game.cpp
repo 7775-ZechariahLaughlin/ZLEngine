@@ -55,7 +55,8 @@ void Game::Run()
 		//add a VAO to the stack
 		Graphics->CreateVAO(GeometricShapes::Polygon);
 		Graphics->CreateVAO(GeometricShapes::Triangle);
-
+		Graphics->CreateVAO(GeometricShapes::Pentagon);
+		Graphics->CreateVAO(GeometricShapes::Circle);
 	}
 	//as long as the game isn't over run the loop
 	while (!bIsGameOver) {
