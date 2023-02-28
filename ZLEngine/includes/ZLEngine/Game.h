@@ -40,7 +40,9 @@ private:
 
 private: 
 
+	// boolean that ends the game
 	bool bIsGameOver;
 
+	// shared pointer to the graphics class
 	GraphicsEnginePtr Graphics;
 };

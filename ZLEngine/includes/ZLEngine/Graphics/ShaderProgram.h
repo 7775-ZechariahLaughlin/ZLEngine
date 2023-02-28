@@ -19,6 +19,9 @@ public:
 	// allow changing mat4 variables in shader code
 	void SetMat4(const char* ShaderVariable, glm::mat4 Value);
 
+	// allow changing integer values in shader code
+	void SetInt(const char* ShaderVariable, int Value);
+
 private: 
 	// Attach the shader to the VAO in OpenGL
 	bool AttachShader(const wchar_t* ShaderFilePath, ShaderTypes Type);

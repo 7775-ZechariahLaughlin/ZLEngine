@@ -1,4 +1,5 @@
-#include <ZLEngine/Game.h>
+#include "ZLEngine/Game.h"
+#include "ZLEngine/Graphics/GraphicsEngine.h"
 
 Game& Game::GetGameInstance()
 {
@@ -49,12 +50,13 @@ void Game::Run()
 	if (!bIsGameOver) {
 		//create a shader
 		Graphics->CreateShader({
-			L"game/shaders/SimpleShader/SimpleShader.svert",
-			L"game/shaders/SimpleShader/SimpleShader.sfrag"
+			L"game/shaders/TextureShader/TextureShader.svert",
+			L"game/shaders/TextureShader/TextureShader.sfrag"
 			});
+		//create a texture
+		Graphics->CreateTexture("game/textures/WoodTexture.jpg");
 		//add a VAO to the stack
 		Graphics->CreateVAO(GeometricShapes::Polygon);
-		Graphics->CreateVAO(GeometricShapes::Triangle);
 
 	}
 	//as long as the game isn't over run the loop

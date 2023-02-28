@@ -1,8 +1,0 @@
-#version 460 core
-
-in vec4 Colour;
-out vec4 OutColour;
-
-void main() {
-	OutColour = Colour;
-}

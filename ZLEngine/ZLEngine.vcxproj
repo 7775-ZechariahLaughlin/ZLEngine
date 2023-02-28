@@ -138,6 +138,7 @@
     <ClInclude Include="includes\ZLEngine\Game.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\GraphicsEngine.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\ShaderProgram.h" />
+    <ClInclude Include="includes\ZLEngine\Graphics\Texture.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h" />
   </ItemGroup>
   <ItemGroup>
@@ -146,11 +147,14 @@
     <ClCompile Include="source\ZLEngine\Game.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\GraphicsEngine.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\ShaderProgram.cpp" />
+    <ClCompile Include="source\ZLEngine\Graphics\Texture.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="game\shaders\SimpleShader\SimpleShader.sfrag" />
-    <None Include="game\shaders\SimpleShader\SimpleShader.svert" />
+    <None Include="game\shaders\TextureShader\TextureShader.sfrag" />
+    <None Include="game\shaders\TextureShader\TextureShader.svert" />
+    <None Include="game\shaders\VertexShader\VertexShader.sfrag" />
+    <None Include="game\shaders\VertexShader\VertexShader.svert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

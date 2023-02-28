@@ -1,0 +1,12 @@
+#version 460 core
+
+in vec2 TexCoords;
+out vec4 OutColour;
+
+// texture data
+uniform sampler2D TextureColour;
+
+void main() {
+	// texture() accepts colour and coordinates to create an OpenGL texture
+	OutColour = texture(TextureColour,  TexCoords);
+}

@@ -33,6 +33,9 @@
     <ClInclude Include="includes\ZLEngine\Graphics\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\ZLEngine\Graphics\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\stb_image\stb_image.cpp">
@@ -53,9 +56,14 @@
     <ClCompile Include="source\ZLEngine\Graphics\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ZLEngine\Graphics\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="game\shaders\SimpleShader\SimpleShader.svert" />
-    <None Include="game\shaders\SimpleShader\SimpleShader.sfrag" />
+    <None Include="game\shaders\VertexShader\VertexShader.svert" />
+    <None Include="game\shaders\VertexShader\VertexShader.sfrag" />
+    <None Include="game\shaders\TextureShader\TextureShader.sfrag" />
+    <None Include="game\shaders\TextureShader\TextureShader.svert" />
   </ItemGroup>
 </Project>

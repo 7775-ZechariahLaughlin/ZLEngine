@@ -60,6 +60,12 @@ void ShaderProgram::SetMat4(const char* ShaderVariable, glm::mat4 Value)
 		);
 }
 
+void ShaderProgram::SetInt(const char* ShaderVariable, int Value)
+{
+	// finding the uniform int value with ShaderVariableName and assign it the value
+	glUniform1i(glGetUniformLocation(ProgramID, ShaderVariable), Value);
+}
+
 bool ShaderProgram::AttachShader(const wchar_t* ShaderFilePath, ShaderTypes Type)
 {
 	// store the shader code
@@ -187,4 +193,5 @@ bool ShaderProgram::Link()
 		wclog << "Shader Program | Linker | Successfully linked with no logs." << endl;
 	}
 
+	return true;
 }

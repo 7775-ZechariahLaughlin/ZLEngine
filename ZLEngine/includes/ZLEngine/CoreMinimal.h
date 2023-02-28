@@ -17,6 +17,10 @@ typedef VertexArrayObject VAO;
 typedef shared_ptr<VAO> VAOPtr;
 typedef vector<VAOPtr> VAOStack;
 
+class Texture;
+typedef shared_ptr<Texture> TexturePtr;
+typedef vector<TexturePtr> TexturePtrStack;
+
 class ShaderProgram;
 typedef shared_ptr<ShaderProgram> ShaderPtr;
 
