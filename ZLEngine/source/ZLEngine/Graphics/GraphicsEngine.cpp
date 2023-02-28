@@ -122,17 +122,25 @@ void GraphicsEngine::Draw()
 
 		if (index == 0) { // Square
 			//move in the x, y or, z direction based on the amount added
-			transform = glm::translate(transform, glm::vec3(0.5f, 0.0f, 0.0f));
+			transform = glm::translate(transform, glm::vec3(0.5f, 0.5f, 0.0f));
 			// radians is the rotation amount
 			// vec3 is the direction to rotate in
 			transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 			transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 1.0f));
 		} 
 		else if (index == 1){ // Triangle
-			transform = glm::translate(transform, glm::vec3(-0.5f, 0.0f, 0.0f));
+			transform = glm::translate(transform, glm::vec3(-0.5f, 0.7f, 0.0f));
 			// x and y will work for our 2D shapes
 			// z must be larger than 0 or you won't see the object (1 is default)
-			transform = glm::scale(transform, glm::vec3(1.25f, 1.25f, 1.0f));
+			transform = glm::scale(transform, glm::vec3(0.25f, 0.25f, 1.0f));
+		}
+		else if (index == 2) { //Pentagon
+			transform = glm::translate(transform, glm::vec3(-0.25f, 0.0f, 0.0f));
+			transform = glm::scale(transform, glm::vec3(0.55f, 0.55f, 1.0f));
+		} 
+		else if (index == 3) { //Circle
+			transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 1.0f)); 
+			transform = glm::translate(transform, glm::vec3(0.75f, -1.0f, 0.0f));
 		}
 
 		Shader->SetMat4("transform", transform);
