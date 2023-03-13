@@ -89,10 +89,10 @@ void Texture::BindTexture()
 	}
 }
 
-void Texture::ActivateTexture()
+void Texture::ActivateTexture(zluint Index)
 {
 	if (TextureID != 0) {
-		glActiveTexture(GL_TEXTURE0 + TextureID - 1);
+		glActiveTexture(GL_TEXTURE0 + Index);
 	}
 }
 

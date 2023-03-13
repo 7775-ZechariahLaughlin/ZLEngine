@@ -137,15 +137,18 @@
     <ClInclude Include="includes\ZLEngine\CoreMinimal.h" />
     <ClInclude Include="includes\ZLEngine\Game.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\GraphicsEngine.h" />
+    <ClInclude Include="includes\ZLEngine\Graphics\Mesh.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\ShaderProgram.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\Texture.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h" />
+    <ClInclude Include="includes\ZLEngine\Math\Transformations.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="game\Source.cpp" />
     <ClCompile Include="source\stb_image\stb_image.cpp" />
     <ClCompile Include="source\ZLEngine\Game.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="source\ZLEngine\Graphics\Mesh.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\Texture.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp" />

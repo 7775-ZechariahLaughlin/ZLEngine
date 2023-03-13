@@ -13,8 +13,14 @@ public:
 	static void DestroyGameInstance();
 
 	/* - start the game/application
-	 - load the window */
+	   - load the window */
 	void Start(const char* WTitle, bool bFullScreen, int WWidth, int WHeight);
+
+	// get precise delta time
+	double GetDeltaTime() { return DeltaTime; }
+
+	//get less precise delta time
+	float GetFDeltaTime() { return static_cast<float>(DeltaTime); }
 
 private: 
 
@@ -45,4 +51,11 @@ private:
 
 	// shared pointer to the graphics class
 	GraphicsEnginePtr Graphics;
+
+	// the time between each frame
+	double DeltaTime;
+
+	//temporary mesh variables
+	MeshPtr Tri;
+	MeshPtr Poly;
 };

@@ -1,5 +1,6 @@
 #include "ZLEngine/Game.h"
 #include "ZLEngine/Graphics/GraphicsEngine.h"
+#include "ZLEngine/Graphics/Mesh.h"
 
 Game& Game::GetGameInstance()
 {
@@ -49,14 +50,24 @@ void Game::Run()
 {
 	if (!bIsGameOver) {
 		//create a shader
-		Graphics->CreateShader({
+		ShaderPtr TextureShader = Graphics->CreateShader({
 			L"game/shaders/TextureShader/TextureShader.svert",
 			L"game/shaders/TextureShader/TextureShader.sfrag"
 			});
-		//create a texture
-		Graphics->CreateTexture("game/textures/WoodTexture.jpg");
-		//add a VAO to the stack
-		Graphics->CreateVAO(GeometricShapes::Polygon);
+		//create textures
+		TexturePtr TWood = Graphics->CreateTexture("game/textures/WoodTexture.jpg");
+		TexturePtr TSquares = Graphics->CreateTexture("game/textures/GreySquare.jpg");
+
+		// create a mesh
+		Graphics->CreateSimpleMeshShape(GeometricShapes::Polygon, TextureShader, { TSquares });
+		Graphics->CreateSimpleMeshShape(GeometricShapes::Triangle, TextureShader, { TWood });
+
+		// initial transformations for the meshes
+		Poly->Transform.Location.x = 0.5f;
+		Tri->Transform.Location.x = -0.5f;
+
+		Poly->Transform.Scale = Vector3(0.5f);
+		Tri->Transform.Scale = Vector3(0.9f);
 
 	}
 	//as long as the game isn't over run the loop
@@ -95,7 +106,30 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
+	// set delta time first always
+	static double LastFrameTime = 0.0;
+	// set the current time since the game has passed
+	double CurrentFrameTime = static_cast<double>(SDL_GetTicks64());
+	// find the time difference between the last and current frame
+	double NewDeltaTime = CurrentFrameTime - LastFrameTime;
+	// set delta time as seconds
+	DeltaTime = NewDeltaTime / 1000.0;
+	// update the last frame time for the next update
+	LastFrameTime = CurrentFrameTime;
+
+	static int MoveUp = 1.0f;
+
+	if (Tri->Transform.Location.y > 0.5) {
+		MoveUp = -1.0f;
+	}
+	if (Tri->Transform.Location.y < -0.5f) {
+		MoveUp = 1.0f;
+	}
+
+	Tri->Transform.Location.y += (2.0f * MoveUp) * GetFDeltaTime();
+
 	//TODO: Handle logic
+	Poly->Transform.Rotation.z += 50.0f * GetFDeltaTime();
 }
 
 void Game::Draw()
