@@ -1,7 +1,7 @@
 #pragma once
 
-#include <iostream>;
-#include <vector>;
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -42,7 +42,8 @@ enum class GeometricShapes {
 	Triangle = 0, 
 	Polygon, 
 	Circle,
-	Pentagon
+	Pentagon,
+	Cube
 };
 
 // store the parameters required to create a shader program

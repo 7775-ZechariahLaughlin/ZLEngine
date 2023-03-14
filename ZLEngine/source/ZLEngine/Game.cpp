@@ -1,6 +1,7 @@
 #include "ZLEngine/Game.h"
 #include "ZLEngine/Graphics/GraphicsEngine.h"
 #include "ZLEngine/Graphics/Mesh.h"
+#include "ZLEngine/Input.h"
 
 Game& Game::GetGameInstance()
 {
@@ -49,6 +50,8 @@ Game::~Game()
 void Game::Run()
 {
 	if (!bIsGameOver) {
+		GameInput = new Input();
+
 		//create a shader
 		ShaderPtr TextureShader = Graphics->CreateShader({
 			L"game/shaders/TextureShader/TextureShader.svert",
@@ -59,16 +62,11 @@ void Game::Run()
 		TexturePtr TSquares = Graphics->CreateTexture("game/textures/GreySquare.jpg");
 
 		// create a mesh
-		Graphics->CreateSimpleMeshShape(GeometricShapes::Polygon, TextureShader, { TSquares });
-		Graphics->CreateSimpleMeshShape(GeometricShapes::Triangle, TextureShader, { TWood });
+		Poly = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TSquares });
+		Cube = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TWood });
 
-		// initial transformations for the meshes
-		Poly->Transform.Location.x = 0.5f;
-		Tri->Transform.Location.x = -0.5f;
-
-		Poly->Transform.Scale = Vector3(0.5f);
-		Tri->Transform.Scale = Vector3(0.9f);
-
+		Poly->Transform.Location.x = 1.0f;
+		Cube->Transform.Location.x = -1.0f;
 	}
 	//as long as the game isn't over run the loop
 	while (!bIsGameOver) {
@@ -88,24 +86,19 @@ void Game::Run()
 
 void Game::ProcessInput()
 {
-	//TODO: Handle inputs
-	SDL_Event PollEvent;
-
-	//this is waiting for inputs to be pressed
-	while (SDL_PollEvent(&PollEvent)) {
-		//checking what input was pressed
-		switch (PollEvent.type) {
-		case SDL_QUIT: //on close button pressed
-			bIsGameOver = true;
-			break;
-		default:
-			break;
-		} 
-	}
+	// run the input detection for our game input
+	GameInput->ProcessInput();
 }
 
 void Game::Update()
 {
+	// apply gravity to the camera while it is above the 'floor' 
+	// TODO: Create Gravity Constant
+	if (Graphics->EngineDefaultCam.y < 0 && !(GameInput->IsKeyDown(SDL_SCANCODE_Q))) {
+		Graphics->EngineDefaultCam.y += 8.0f * GetFDeltaTime();
+		cout << "Movement | Falling..." << endl;
+	}
+	
 	// set delta time first always
 	static double LastFrameTime = 0.0;
 	// set the current time since the game has passed
@@ -117,19 +110,70 @@ void Game::Update()
 	// update the last frame time for the next update
 	LastFrameTime = CurrentFrameTime;
 
-	static int MoveUp = 1.0f;
-
-	if (Tri->Transform.Location.y > 0.5) {
-		MoveUp = -1.0f;
-	}
-	if (Tri->Transform.Location.y < -0.5f) {
-		MoveUp = 1.0f;
-	}
-
-	Tri->Transform.Location.y += (2.0f * MoveUp) * GetFDeltaTime();
-
 	//TODO: Handle logic
-	Poly->Transform.Rotation.z += 50.0f * GetFDeltaTime();
+	Poly->Transform.Rotation.x += 50.0f * GetFDeltaTime();
+	Poly->Transform.Rotation.y += 50.0f * GetFDeltaTime();
+	Poly->Transform.Rotation.z += 50.0f * GetFDeltaTime(); 
+	Cube->Transform.Rotation.x += -25.0f * GetFDeltaTime();
+	Cube->Transform.Rotation.y += -25.0f * GetFDeltaTime();
+	Cube->Transform.Rotation.z += -25.0f * GetFDeltaTime();
+
+	Poly->Transform.Location.z -= 0.1f * GetFDeltaTime();
+	Cube->Transform.Location.z -= 0.6f * GetFDeltaTime();
+	
+	Vector3 CameraInput = Vector3(0.0f);
+	float MoveSpeed = 2.0f;
+
+	// move cam forward
+	if (GameInput->IsKeyDown(SDL_SCANCODE_W)) {
+		CameraInput.z = MoveSpeed;
+		cout << "Movement | Moving Forward..." << endl;
+	}
+	// move cam backward
+	if (GameInput->IsKeyDown(SDL_SCANCODE_S)) {
+		CameraInput.z = -MoveSpeed;
+		cout << "Movement | Moving Backward..." << endl;
+	}
+	// move cam right
+	if (GameInput->IsKeyDown(SDL_SCANCODE_D)) {
+		CameraInput.x = -MoveSpeed;
+		cout << "Movement | Moving Right..." << endl;
+	}
+	// move cam left
+	if (GameInput->IsKeyDown(SDL_SCANCODE_A)) {
+		CameraInput.x = MoveSpeed;
+		cout << "Movement | Moving Left..." << endl;
+	}
+	// move cam up
+	if (GameInput->IsKeyDown(SDL_SCANCODE_Q)) {
+		CameraInput.y = -MoveSpeed;
+		cout << "Movement | Moving Up..." << endl;
+	 }
+	// move cam down
+	if (GameInput->IsKeyDown(SDL_SCANCODE_E)) {
+		CameraInput.y = MoveSpeed;
+		cout << "Movement | Moving Down..." << endl;
+	}
+	// multiply the move speed for running
+	if (GameInput->IsKeyDown(SDL_SCANCODE_LSHIFT)) {
+		MoveSpeed *= 2.0f;
+		cout << "Movement | Running..." << endl;
+	}
+	// divide the move speed for crouching
+	if (GameInput->IsKeyDown(SDL_SCANCODE_LCTRL)) {
+		MoveSpeed /= 2.0f;
+		cout << "Movement | Crouching..." << endl;
+	}
+	// jump
+	if (GameInput->IsKeyDown(SDL_SCANCODE_SPACE)) {
+		CameraInput.y = -8.0f * MoveSpeed;
+		cout << "Movement | Jumping..." << endl;
+	}
+
+	CameraInput *= MoveSpeed * GetFDeltaTime();
+
+	Graphics->EngineDefaultCam += CameraInput;
+
 }
 
 void Game::Draw()
@@ -141,4 +185,5 @@ void Game::Draw()
 void Game::CloseGame()
 {
 	//TODO: Clean up code
+	delete GameInput;
 }

@@ -26,6 +26,11 @@ VertexArrayObject::VertexArrayObject(GeometricShapes ChosenShape)
 	case GeometricShapes::Pentagon:
 		ChosenPositions = PentagonPositions;
 		ChosenIndices = PentagonIndices;
+		break;
+	case GeometricShapes::Cube:
+		ChosenPositions = CubePositions;
+		ChosenIndices = CubeIndicies;
+		break;
 	default:
 		break;
 	}

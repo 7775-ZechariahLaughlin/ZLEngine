@@ -1,6 +1,7 @@
 #pragma once
-#include "ZLEngine/Graphics/GraphicsEngine.h"
 #include "CoreMinimal.h"
+
+class Input;
 
 class Game {
 
@@ -19,8 +20,14 @@ public:
 	// get precise delta time
 	double GetDeltaTime() { return DeltaTime; }
 
-	//get less precise delta time
+	// get less precise delta time
 	float GetFDeltaTime() { return static_cast<float>(DeltaTime); }
+
+	// return the graphics engine
+	GraphicsEnginePtr GetGraphicsEngine() { return Graphics; }
+
+	// set the bIsGameOver to true
+	void CloseApp() { bIsGameOver = true; }
 
 private: 
 
@@ -45,7 +52,6 @@ private:
 	void CloseGame();
 
 private: 
-
 	// boolean that ends the game
 	bool bIsGameOver;
 
@@ -55,7 +61,10 @@ private:
 	// the time between each frame
 	double DeltaTime;
 
+	// read the input of the player
+	Input* GameInput;
+
 	//temporary mesh variables
-	MeshPtr Tri;
+	MeshPtr Cube;
 	MeshPtr Poly;
 };

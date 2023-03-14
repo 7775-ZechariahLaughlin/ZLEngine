@@ -141,6 +141,7 @@
     <ClInclude Include="includes\ZLEngine\Graphics\ShaderProgram.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\Texture.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h" />
+    <ClInclude Include="includes\ZLEngine\Input.h" />
     <ClInclude Include="includes\ZLEngine\Math\Transformations.h" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClCompile Include="source\ZLEngine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\Texture.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp" />
+    <ClCompile Include="source\ZLEngine\Input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\shaders\TextureShader\TextureShader.sfrag" />

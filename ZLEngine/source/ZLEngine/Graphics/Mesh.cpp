@@ -3,11 +3,12 @@
 #include "ZLEngine/Graphics/Texture.h"
 #include "ZLEngine/Graphics/VertexArrayObject.h"
 #include "GLM/gtc/matrix_transform.hpp"
+#include "ZLEngine/Game.h"
+#include "ZLEngine/Graphics/GraphicsEngine.h"
 
 Mesh::Mesh()
 {
 	cout << "Mesh || Initialised Mesh... " << endl;
-	Transform.Rotation.z = 45.0f;
 }
 
 Mesh::~Mesh()
@@ -74,8 +75,11 @@ void Mesh::Draw()
 		//scale
 		MatTransform = glm::scale(MatTransform, Transform.Scale);
 
-		MeshShader->SetMat4("transform", MatTransform);
+		MeshShader->SetMat4("model", MatTransform);
 	}
+
+	// create the world and screen transformations for this object
+	Game::GetGameInstance().GetGraphicsEngine()->ApplyScreenTransformations(MeshShader);
 
 	// draw the VAO
 	MeshVAO->Draw();

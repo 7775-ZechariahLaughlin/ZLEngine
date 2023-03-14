@@ -2,6 +2,7 @@
 
 #include "SDL2/SDL.h"
 #include "ZLEngine/CoreMinimal.h"
+#include "ZLEngine/Math/Transformations.h"
 
 class GraphicsEngine {
 
@@ -33,6 +34,13 @@ public:
 	//create a texture and add it to the texture stack
 	// avoid duplicates
 	TexturePtr CreateTexture(const char* FilePath);
+
+	//create the 3D space for the model to relate itself to
+	void ApplyScreenTransformations(ShaderPtr Shader);
+
+public:
+	// default camera positions
+	Vector3 EngineDefaultCam;
 
 private: 
 	//this will hold the window
