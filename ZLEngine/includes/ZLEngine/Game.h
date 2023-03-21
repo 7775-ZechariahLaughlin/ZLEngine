@@ -66,5 +66,5 @@ private:
 
 	//temporary mesh variables
 	MeshPtr Cube;
-	MeshPtr Poly;
+	MeshPtr Poly; 
 };

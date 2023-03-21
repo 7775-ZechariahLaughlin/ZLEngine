@@ -8,7 +8,7 @@
 
 Mesh::Mesh()
 {
-	cout << "Mesh || Initialised Mesh... " << endl;
+	cout << "Mesh | Initialised Mesh... " << endl;
 }
 
 Mesh::~Mesh()
@@ -17,19 +17,19 @@ Mesh::~Mesh()
 	MeshTextures.clear();
 	MeshVAO = nullptr;
 
-	cout << "Mesh || Mesh Destroyed... " << endl;
+	cout << "Mesh | Mesh Destroyed... " << endl;
 }
 
 bool Mesh::CreateSimpleShape(GeometricShapes Shape, ShaderPtr MeshShader, TexturePtrStack MeshTextures)
 {
-	cout << "Mesh || Creating Mesh... " << endl;
+	cout << "Mesh | Creating Mesh... " << endl;
 
 	// create the VAO
 	MeshVAO = make_shared<VAO>(Shape);
 
 	// validate the mesh was created
 	if (MeshVAO == nullptr) {
-		cout << "Mesh || Mesh failed to be created." << endl;
+		cout << "Mesh | Mesh failed to be created." << endl;
 		return false;
 	}
 
@@ -37,7 +37,7 @@ bool Mesh::CreateSimpleShape(GeometricShapes Shape, ShaderPtr MeshShader, Textur
 	this->MeshShader = MeshShader;
 	this->MeshTextures = MeshTextures;
 
-	cout << "Mesh || Mesh created successfully." << endl;
+	cout << "Mesh | Mesh created successfully." << endl;
 
 	return true;
 }

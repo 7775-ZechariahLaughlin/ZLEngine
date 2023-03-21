@@ -17,3 +17,8 @@ struct CTransform {
 		return Location != OtherT.Location || Rotation != OtherT.Rotation || Scale != OtherT.Scale;
 	}
 };
+struct CDirection {
+	Vector3 Forward = Vector3(0.0f);
+	Vector3 Right = Vector3(0.0f);
+	Vector3 Up = Vector3(0.0f);
+};

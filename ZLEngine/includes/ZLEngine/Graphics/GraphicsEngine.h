@@ -39,8 +39,8 @@ public:
 	void ApplyScreenTransformations(ShaderPtr Shader);
 
 public:
-	// default camera positions
-	Vector3 EngineDefaultCam;
+	// default camera
+	CameraPtr EngineDefaultCam;
 
 private: 
 	//this will hold the window

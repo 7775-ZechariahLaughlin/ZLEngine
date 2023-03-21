@@ -2,6 +2,7 @@
 #include "ZLEngine/Graphics/GraphicsEngine.h"
 #include "ZLEngine/Graphics/Mesh.h"
 #include "ZLEngine/Input.h"
+#include "ZLEngine/Graphics/Camera.h"
 
 Game& Game::GetGameInstance()
 {
@@ -64,9 +65,9 @@ void Game::Run()
 		// create a mesh
 		Poly = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TSquares });
 		Cube = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TWood });
-
-		Poly->Transform.Location.x = 1.0f;
-		Cube->Transform.Location.x = -1.0f;
+		
+		Poly->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
+		Cube->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
 	}
 	//as long as the game isn't over run the loop
 	while (!bIsGameOver) {
@@ -92,13 +93,6 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-	// apply gravity to the camera while it is above the 'floor' 
-	// TODO: Create Gravity Constant
-	if (Graphics->EngineDefaultCam.y < 0 && !(GameInput->IsKeyDown(SDL_SCANCODE_Q))) {
-		Graphics->EngineDefaultCam.y += 8.0f * GetFDeltaTime();
-		cout << "Movement | Falling..." << endl;
-	}
-	
 	// set delta time first always
 	static double LastFrameTime = 0.0;
 	// set the current time since the game has passed
@@ -114,6 +108,7 @@ void Game::Update()
 	Poly->Transform.Rotation.x += 50.0f * GetFDeltaTime();
 	Poly->Transform.Rotation.y += 50.0f * GetFDeltaTime();
 	Poly->Transform.Rotation.z += 50.0f * GetFDeltaTime(); 
+
 	Cube->Transform.Rotation.x += -25.0f * GetFDeltaTime();
 	Cube->Transform.Rotation.y += -25.0f * GetFDeltaTime();
 	Cube->Transform.Rotation.z += -25.0f * GetFDeltaTime();
@@ -123,56 +118,71 @@ void Game::Update()
 	
 	Vector3 CameraInput = Vector3(0.0f);
 	float MoveSpeed = 2.0f;
+	CDirection CamDirections = Graphics->EngineDefaultCam->GetDirections();
 
 	// move cam forward
 	if (GameInput->IsKeyDown(SDL_SCANCODE_W)) {
-		CameraInput.z = MoveSpeed;
+		CameraInput += CamDirections.Forward;
 		cout << "Movement | Moving Forward..." << endl;
 	}
 	// move cam backward
 	if (GameInput->IsKeyDown(SDL_SCANCODE_S)) {
-		CameraInput.z = -MoveSpeed;
+		CameraInput += -CamDirections.Forward;
 		cout << "Movement | Moving Backward..." << endl;
 	}
 	// move cam right
 	if (GameInput->IsKeyDown(SDL_SCANCODE_D)) {
-		CameraInput.x = -MoveSpeed;
+		CameraInput += CamDirections.Right;
 		cout << "Movement | Moving Right..." << endl;
 	}
 	// move cam left
 	if (GameInput->IsKeyDown(SDL_SCANCODE_A)) {
-		CameraInput.x = MoveSpeed;
+		CameraInput += -CamDirections.Right;
 		cout << "Movement | Moving Left..." << endl;
 	}
 	// move cam up
 	if (GameInput->IsKeyDown(SDL_SCANCODE_Q)) {
-		CameraInput.y = -MoveSpeed;
+		CameraInput += CamDirections.Up;
 		cout << "Movement | Moving Up..." << endl;
 	 }
 	// move cam down
 	if (GameInput->IsKeyDown(SDL_SCANCODE_E)) {
-		CameraInput.y = MoveSpeed;
+		CameraInput += -CamDirections.Up;
 		cout << "Movement | Moving Down..." << endl;
 	}
 	// multiply the move speed for running
 	if (GameInput->IsKeyDown(SDL_SCANCODE_LSHIFT)) {
-		MoveSpeed *= 2.0f;
+		CameraInput *= 2.0f;
 		cout << "Movement | Running..." << endl;
 	}
 	// divide the move speed for crouching
 	if (GameInput->IsKeyDown(SDL_SCANCODE_LCTRL)) {
-		MoveSpeed /= 2.0f;
+		CameraInput /= 2.0f;
 		cout << "Movement | Crouching..." << endl;
 	}
 	// jump
 	if (GameInput->IsKeyDown(SDL_SCANCODE_SPACE)) {
-		CameraInput.y = -8.0f * MoveSpeed;
+		CameraInput.y = 8.0f * MoveSpeed;
 		cout << "Movement | Jumping..." << endl;
 	}
+	
 
 	CameraInput *= MoveSpeed * GetFDeltaTime();
 
-	Graphics->EngineDefaultCam += CameraInput;
+	// TODO: Create Gravity
+	
+	Vector3 NewLocation = Graphics->EngineDefaultCam->GetTransforms().Location += CameraInput;
+	Graphics->EngineDefaultCam->Translate(NewLocation);
+
+	// check right mouse button is held
+	if (GameInput->IsMouseButtonDown(MouseButtons::RIGHT)) {
+		Graphics->EngineDefaultCam->RotatePitch(-(GameInput->MouseYDelta * GetFDeltaTime() * 20.0f));
+		Graphics->EngineDefaultCam->RotateYaw(GameInput->MouseXDelta * GetFDeltaTime() * 20.0f);
+	}
+	// test inputs
+	if (GameInput->IsMouseButtonDown(MouseButtons::LEFT)) {
+		cout << "Movement | Left Mouse button down...";
+	}
 
 }
 
