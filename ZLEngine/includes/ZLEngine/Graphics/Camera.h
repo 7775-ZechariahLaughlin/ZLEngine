@@ -43,6 +43,12 @@ public:
 	// rotate the camera based on pitch
 	void RotateYaw(float Amount);
 
+	// zoom the camera in out based on FOV
+	void ZoomCamera(float Amount);
+
+	// reset the camera to default FOV
+	void ResetCamera();
+
 private:
 
 	// find the current direction vectors based on the rotation of the YAW and PITCH of the camera

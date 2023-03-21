@@ -51,6 +51,28 @@ void Camera::RotateYaw(float Amount)
 	UpdateDirectionVectors();
 }
 
+void Camera::ZoomCamera(float Amount)
+{
+	CameraData.FOV -= Amount;
+
+	// clamp the results between the two max values to avoid flip
+	if (CameraData.FOV > 130.0f) {
+		CameraData.FOV = 130.0f;
+	}
+
+	if (CameraData.FOV < 50.0f) {
+		CameraData.FOV = 50.0f;
+	}
+
+	cout << "First Person Camera | Camera FOV is at - " << CameraData.FOV << endl;
+}
+
+void Camera::ResetCamera()
+{
+	CameraData.FOV = 70.0f;
+	cout << "First Person Camera | Camera FOV reset to - " << CameraData.FOV << endl;
+}
+
 void Camera::UpdateDirectionVectors()
 {
 	// create a Vector3 to initialise a 0 direction

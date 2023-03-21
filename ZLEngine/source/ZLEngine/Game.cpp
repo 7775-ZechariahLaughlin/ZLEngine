@@ -174,14 +174,23 @@ void Game::Update()
 	Vector3 NewLocation = Graphics->EngineDefaultCam->GetTransforms().Location += CameraInput;
 	Graphics->EngineDefaultCam->Translate(NewLocation);
 
-	// check right mouse button is held
+	// reset the FOV when R is pressed
+	if (GameInput->IsKeyDown(SDL_SCANCODE_R)) {
+		Graphics->EngineDefaultCam->ResetCamera();
+	}
+
+	// check right mouse button is held - RMB only commands
 	if (GameInput->IsMouseButtonDown(MouseButtons::RIGHT)) {
+		// rotate on the x axis
 		Graphics->EngineDefaultCam->RotatePitch(-(GameInput->MouseYDelta * GetFDeltaTime() * 20.0f));
+		// rotate on the y axis
 		Graphics->EngineDefaultCam->RotateYaw(GameInput->MouseXDelta * GetFDeltaTime() * 20.0f);
+		// scroll to zoom in out
+		Graphics->EngineDefaultCam->ZoomCamera(GameInput->ScrollDelta);
 	}
 	// test inputs
 	if (GameInput->IsMouseButtonDown(MouseButtons::LEFT)) {
-		cout << "Movement | Left Mouse button down...";
+		cout << "Movement | Left Mouse button down..." << endl;
 	}
 
 }
