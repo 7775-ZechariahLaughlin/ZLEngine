@@ -142,13 +142,13 @@ void Game::Update()
 	}
 	// move cam up
 	if (GameInput->IsKeyDown(SDL_SCANCODE_Q)) {
-		CameraInput += CamDirections.Up;
-		cout << "Movement | Moving Up..." << endl;
+		CameraInput += -CamDirections.Up;
+		cout << "Movement | Moving Down..." << endl;
 	 }
 	// move cam down
 	if (GameInput->IsKeyDown(SDL_SCANCODE_E)) {
-		CameraInput += -CamDirections.Up;
-		cout << "Movement | Moving Down..." << endl;
+		CameraInput += CamDirections.Up;
+		cout << "Movement | Moving Up..." << endl;
 	}
 	// multiply the move speed for running
 	if (GameInput->IsKeyDown(SDL_SCANCODE_LSHIFT)) {
