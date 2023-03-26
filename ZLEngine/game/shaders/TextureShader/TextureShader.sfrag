@@ -9,4 +9,7 @@ uniform sampler2D TextureColour;
 void main() {
 	// texture() accepts colour and coordinates to create an OpenGL texture
 	OutColour = texture(TextureColour,  TexCoords);
+	if (OutColour.a < 0.1){
+		discard;
+	}
 }

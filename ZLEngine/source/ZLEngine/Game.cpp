@@ -63,11 +63,19 @@ void Game::Run()
 		TexturePtr TSquares = Graphics->CreateTexture("game/textures/GreySquare.jpg");
 
 		// create a mesh
-		Poly = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TSquares });
+		Poly = Graphics->CreateSimpleMeshShape(GeometricShapes::Polygon, TextureShader, { TSquares });
 		Cube = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TWood });
+		CubeZ = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TSquares });
+		CubeX = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TWood });
+		CubeY = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TSquares });
+		Tri = Graphics->CreateSimpleMeshShape(GeometricShapes::Triangle, TextureShader, { TWood });
 		
 		Poly->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
 		Cube->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
+		CubeZ->Transform.Location = Vector3(1.0f, -1.0f, 1.0f);
+		CubeX->Transform.Location = Vector3(0.0f, -1.0f, 2.0f);
+		CubeY->Transform.Location = Vector3(0.0f, -2.0f, 1.0f);
+
 	}
 	//as long as the game isn't over run the loop
 	while (!bIsGameOver) {
@@ -105,17 +113,34 @@ void Game::Update()
 	LastFrameTime = CurrentFrameTime;
 
 	//TODO: Handle logic
+	//Poly Transforms
 	Poly->Transform.Rotation.x += 50.0f * GetFDeltaTime();
 	Poly->Transform.Rotation.y += 50.0f * GetFDeltaTime();
 	Poly->Transform.Rotation.z += 50.0f * GetFDeltaTime(); 
+	Poly->Transform.Location.z -= 0.1f * GetFDeltaTime();
 
+	//Cube Transforms
 	Cube->Transform.Rotation.x += -25.0f * GetFDeltaTime();
 	Cube->Transform.Rotation.y += -25.0f * GetFDeltaTime();
 	Cube->Transform.Rotation.z += -25.0f * GetFDeltaTime();
-
-	Poly->Transform.Location.z -= 0.1f * GetFDeltaTime();
 	Cube->Transform.Location.z -= 0.6f * GetFDeltaTime();
-	
+
+	//CubeZ Transforms
+	CubeZ->Transform.Rotation.z += 75.0f * GetFDeltaTime();
+	CubeZ->Transform.Location.z -= 1.0f * GetFDeltaTime();
+
+	//CubeY Transforms
+	CubeY->Transform.Rotation.y += -60.0f * GetFDeltaTime();
+	CubeY->Transform.Location.y += 0.35f * GetFDeltaTime();
+
+	//CubeX Transforms
+	CubeX->Transform.Rotation.x += 35.0f * GetFDeltaTime();
+	CubeX->Transform.Location.x += 2.0f * GetFDeltaTime();
+
+	//Tri Transforms
+	Tri->Transform.Rotation.z += 50.0f * GetFDeltaTime();
+	Tri->Transform.Rotation.x += 50.0f * GetFDeltaTime();
+
 	Vector3 CameraInput = Vector3(0.0f);
 	float MoveSpeed = 2.0f;
 	CDirection CamDirections = Graphics->EngineDefaultCam->GetDirections();
@@ -179,14 +204,15 @@ void Game::Update()
 		Graphics->EngineDefaultCam->ResetCamera();
 	}
 
+	// scroll to zoom in out
+	Graphics->EngineDefaultCam->ZoomCamera(GameInput->ScrollDelta);
+
 	// check right mouse button is held - RMB only commands
 	if (GameInput->IsMouseButtonDown(MouseButtons::RIGHT)) {
 		// rotate on the x axis
 		Graphics->EngineDefaultCam->RotatePitch(-(GameInput->MouseYDelta * GetFDeltaTime() * 20.0f));
 		// rotate on the y axis
 		Graphics->EngineDefaultCam->RotateYaw(GameInput->MouseXDelta * GetFDeltaTime() * 20.0f);
-		// scroll to zoom in out
-		Graphics->EngineDefaultCam->ZoomCamera(GameInput->ScrollDelta);
 	}
 	// test inputs
 	if (GameInput->IsMouseButtonDown(MouseButtons::LEFT)) {
