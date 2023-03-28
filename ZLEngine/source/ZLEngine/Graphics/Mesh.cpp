@@ -1,6 +1,6 @@
 #include "ZLEngine/Graphics/Mesh.h"
 #include "ZLEngine/Graphics/ShaderProgram.h"
-#include "ZLEngine/Graphics/Texture.h"
+#include "ZLEngine/Graphics/Material.h"
 #include "ZLEngine/Graphics/VertexArrayObject.h"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "ZLEngine/Game.h"
@@ -14,13 +14,13 @@ Mesh::Mesh()
 Mesh::~Mesh()
 {
 	MeshShader = nullptr;
-	MeshTextures.clear();
+	MeshMaterial = nullptr;
 	MeshVAO = nullptr;
 
 	cout << "Mesh | Mesh Destroyed... " << endl;
 }
 
-bool Mesh::CreateSimpleShape(GeometricShapes Shape, ShaderPtr MeshShader, TexturePtrStack MeshTextures)
+bool Mesh::CreateSimpleShape(GeometricShapes Shape, ShaderPtr MeshShader, MaterialPtr MeshMaterial)
 {
 	cout << "Mesh | Creating Mesh... " << endl;
 
@@ -35,7 +35,7 @@ bool Mesh::CreateSimpleShape(GeometricShapes Shape, ShaderPtr MeshShader, Textur
 
 	// assign the shader and textures
 	this->MeshShader = MeshShader;
-	this->MeshTextures = MeshTextures;
+	this->MeshMaterial = MeshMaterial;
 
 	cout << "Mesh | Mesh created successfully." << endl;
 
@@ -47,14 +47,10 @@ void Mesh::Draw()
 	// activate the shader that this mesh uses
 	MeshShader->RunShader();
 
-	// activate the required textures for this mesh
-	for (zluint Index = 0; Index < MeshTextures.size(); Index++) {
-		// activating the texture through OpenGL
-		MeshTextures[Index]->ActivateTexture(Index);
-		// setting the textures number as the active texture in the shader
-		MeshShader->SetInt("TextureColour", Index);
-		// binding the texture to the shader
-		MeshTextures[Index]->BindTexture();
+	// run the material for this mesh
+	// activate all required textures
+	if (MeshMaterial != nullptr) {
+		MeshMaterial->Draw(MeshShader);
 	}
 
 	// initialise a static variable to check if any changes to transform

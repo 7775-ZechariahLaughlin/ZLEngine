@@ -1,5 +1,6 @@
 #pragma once
 #include "ZLEngine/CoreMinimal.h"
+#include "ZLEngine/Graphics/Vertex.h"
 
 const PositionMatrix TrianglePositions{
 	// x	// y	// z	//R		//G		//B
@@ -115,7 +116,10 @@ const IndicesMatrix CubeIndicies{
 class VertexArrayObject {
 
 public: 
+	// create our simple mesh vao
 	VertexArrayObject(GeometricShapes ChosenShape);
+	// create a complex mesh vao from the importer
+	VertexArrayObject(vector<Vertex> Vertices, vector<zluint> Indices);
 	~VertexArrayObject();
 
 	void Draw();
@@ -128,5 +132,9 @@ private:
 	VAB - ID for the Vertices
 	EAB - ID for the Indices */
 	zluint ID, VAB, EAB;
+
+	// for importing complex meshes
+	vector<Vertex> Vertices;
+	vector<zluint> Indices;
 };
 

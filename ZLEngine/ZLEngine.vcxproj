@@ -110,7 +110,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/ZLEngine/lib/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(SolutionDir)ZLEngine\lib\*.dll" "$(SolutionDir)$(Platform)\$(Configuration)"</Command>
@@ -138,9 +138,11 @@
     <ClInclude Include="includes\ZLEngine\Game.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\Camera.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\GraphicsEngine.h" />
+    <ClInclude Include="includes\ZLEngine\Graphics\Material.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\Mesh.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\ShaderProgram.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\Texture.h" />
+    <ClInclude Include="includes\ZLEngine\Graphics\Vertex.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h" />
     <ClInclude Include="includes\ZLEngine\Input.h" />
     <ClInclude Include="includes\ZLEngine\Math\Transformations.h" />
@@ -151,6 +153,7 @@
     <ClCompile Include="source\ZLEngine\Game.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\Camera.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="source\ZLEngine\Graphics\Material.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\Mesh.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\Texture.cpp" />

@@ -71,6 +71,24 @@ bool Input::IsMouseButtonDown(MouseButtons Button)
 	return MouseButtonStates[Button];
 }
 
+void Input::ShowCursor(bool bVisibility)
+{
+	static SDL_bool bIsVisible = SDL_FALSE;
+
+	// only run if the visibility of the cursor is opposite to what the input is asking for
+	// ie. if we turn off the cursor but it's already off we don't need to turn it off
+	// if the cursor is off and we ask for it to be on
+	if (bVisibility && bIsVisible == SDL_TRUE) {
+		bIsVisible = SDL_FALSE;
+		SDL_SetRelativeMouseMode(bIsVisible);
+	}
+	// if the cursor is on and we ask for it to be off
+	else if (!bVisibility && bIsVisible == SDL_FALSE) {
+		bIsVisible = SDL_TRUE;
+		SDL_SetRelativeMouseMode(bIsVisible);
+	}
+}
+
 void Input::SetMouseButtonStates(Uint8 ButtonIndex, bool CurrentState)
 {
 	MouseButtonStates[ButtonIndex] = CurrentState;

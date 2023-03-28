@@ -8,7 +8,7 @@ public:
 	~Mesh();
 
 	// create the mesh out of VAO, a Shader and Textures
-	bool CreateSimpleShape(GeometricShapes Shape, ShaderPtr MeshShader, TexturePtrStack MeshTextures);
+	bool CreateSimpleShape(GeometricShapes Shape, ShaderPtr MeshShader, MaterialPtr MeshMaterial);
 
 	// handle the drawing of all the required classes
 	void Draw();
@@ -19,8 +19,10 @@ public:
 private:
 	// store the shader this mesh requires
 	ShaderPtr MeshShader;
-	// store the textures this mesh requires
-	TexturePtrStack MeshTextures;
+
+	// assign a material to the mesh
+	MaterialPtr MeshMaterial;
+
 	// create a new VAO for the mesh
 	VAOPtr MeshVAO;
 

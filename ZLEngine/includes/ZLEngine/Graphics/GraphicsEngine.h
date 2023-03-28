@@ -23,8 +23,8 @@ public:
 	//return the sdl window
 	SDL_Window* GetWindow() const;
 	
-	//add a new VAO to the VAOStack using a shape define
-	MeshPtr CreateSimpleMeshShape(GeometricShapes Shape, ShaderPtr MeshShader, TexturePtrStack MeshTextures);
+	// create a new mesh with a material assigned
+	MeshPtr CreateSimpleMeshShape(GeometricShapes Shape, ShaderPtr MeshShader, MaterialPtr MeshMaterial);
 
 	/*add a new Shader
 	* @param 1 - Vertex Shader
@@ -41,17 +41,21 @@ public:
 public:
 	// default camera
 	CameraPtr EngineDefaultCam;
+	// default texture
+	TexturePtr DefaultEngineTexture;
 
 private: 
+	//handle wireframe mode
+	void HandleWireframeMode(bool bShowWireframeMode);
+
+private: 
+
 	//this will hold the window
 	SDL_Window* SdlWindow;
 	//this will allow OpenGL to work in SDL
 	SDL_GLContext SdlGLContext;
-	//handle wireframe mode
-	void HandleWireframeMode(bool bShowWireframeMode);
 	//set wireframe
 	bool bWireframeMode;
-
 	// single shader
 	ShaderPtr Shader;
 	// store a vector of textures

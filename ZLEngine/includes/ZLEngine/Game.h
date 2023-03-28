@@ -29,6 +29,9 @@ public:
 	// set the bIsGameOver to true
 	void CloseApp() { bIsGameOver = true; }
 
+	// return the graphics engine default texture
+	TexturePtr GetDefaultEngineTexture();
+
 private: 
 
 	Game();

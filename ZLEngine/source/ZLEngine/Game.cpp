@@ -3,6 +3,7 @@
 #include "ZLEngine/Graphics/Mesh.h"
 #include "ZLEngine/Input.h"
 #include "ZLEngine/Graphics/Camera.h"
+#include "ZLEngine/Graphics/Material.h"
 
 Game& Game::GetGameInstance()
 {
@@ -32,7 +33,11 @@ void Game::Start(const char* WTitle, bool bFullScreen, int WWidth, int WHeight)
 	Run();
 
 }
-Game::Game() 
+TexturePtr Game::GetDefaultEngineTexture()
+{
+	return Graphics->DefaultEngineTexture;
+}
+Game::Game()
 {
 	cout << "Game Initialised!" << endl;
 
@@ -58,13 +63,21 @@ void Game::Run()
 			L"game/shaders/TextureShader/TextureShader.svert",
 			L"game/shaders/TextureShader/TextureShader.sfrag"
 			});
-		//create textures
+		// create the textures
 		TexturePtr TWood = Graphics->CreateTexture("game/textures/WoodTexture.jpg");
 		TexturePtr TSquares = Graphics->CreateTexture("game/textures/GreySquare.jpg");
 
+		// create the materials
+		MaterialPtr MWood = make_shared<Material>();
+		MaterialPtr MSquares = make_shared<Material>();
+
+		// assign the base colour of the materials using the textures
+
+		//MWood->BaseColour = TWood;
+		MSquares->BaseColour = TSquares;
 		// create a mesh
-		Poly = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TSquares });
-		Cube = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, { TWood });
+		Poly = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, MSquares);
+		Cube = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, MWood);
 		
 		Poly->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
 		Cube->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
@@ -117,7 +130,7 @@ void Game::Update()
 	Cube->Transform.Location.z -= 0.6f * GetFDeltaTime();
 	
 	Vector3 CameraInput = Vector3(0.0f);
-	float MoveSpeed = 2.0f;
+	float MoveSpeed = 5.0f;
 	CDirection CamDirections = Graphics->EngineDefaultCam->GetDirections();
 
 	// move cam forward
@@ -152,12 +165,12 @@ void Game::Update()
 	}
 	// multiply the move speed for running
 	if (GameInput->IsKeyDown(SDL_SCANCODE_LSHIFT)) {
-		CameraInput *= 2.0f;
+		//TODO Add Running
 		cout << "Movement | Running..." << endl;
 	}
 	// divide the move speed for crouching
 	if (GameInput->IsKeyDown(SDL_SCANCODE_LCTRL)) {
-		CameraInput /= 2.0f;
+		//TODO Add Crouching
 		cout << "Movement | Crouching..." << endl;
 	}
 	// jump
@@ -166,18 +179,20 @@ void Game::Update()
 		cout << "Movement | Jumping..." << endl;
 	}
 	
-
 	CameraInput *= MoveSpeed * GetFDeltaTime();
 
 	// TODO: Create Gravity
 	
-	Vector3 NewLocation = Graphics->EngineDefaultCam->GetTransforms().Location += CameraInput;
-	Graphics->EngineDefaultCam->Translate(NewLocation);
+	Graphics->EngineDefaultCam->AddMovementInput(CameraInput);
 
 	// check right mouse button is held
 	if (GameInput->IsMouseButtonDown(MouseButtons::RIGHT)) {
-		Graphics->EngineDefaultCam->RotatePitch(-(GameInput->MouseYDelta * GetFDeltaTime() * 20.0f));
-		Graphics->EngineDefaultCam->RotateYaw(GameInput->MouseXDelta * GetFDeltaTime() * 20.0f);
+		Graphics->EngineDefaultCam->RotatePitch(-GameInput->MouseYDelta * GetFDeltaTime());
+		Graphics->EngineDefaultCam->RotateYaw(GameInput->MouseXDelta * GetFDeltaTime());
+		GameInput->ShowCursor(false);
+	}
+	else {
+		GameInput->ShowCursor(true);
 	}
 	// test inputs
 	if (GameInput->IsMouseButtonDown(MouseButtons::LEFT)) {

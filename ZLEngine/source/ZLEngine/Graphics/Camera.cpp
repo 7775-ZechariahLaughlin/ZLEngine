@@ -1,5 +1,6 @@
 #include "ZLEngine/Graphics/Camera.h"
 #include "GLM/gtc/matrix_transform.hpp"
+#include "ZLEngine/Game.h"
 Camera::Camera()
 {
 	UpdateDirectionVectors();
@@ -11,6 +12,28 @@ Camera::Camera()
 void Camera::Translate(Vector3 Location)
 {
 	Transform.Location = Location;
+}
+
+void Camera::AddMovementInput(Vector3 Direction)
+{
+	if (glm::length(Direction) == 0) {
+		return;
+	}
+	// divive the vector by it's length
+	// don't normalise if the direction is 0
+	Direction = glm::normalize(Direction);
+
+	// set the velocity of the camera using the speed and input direction
+	Vector3 Vel = Direction * (CameraData.Speed * Game::GetGameInstance().GetFDeltaTime());
+
+	// create a new location for the camera based on it's position and current velocity
+	Vector3 NewPosition = Transform.Location + Vel;
+
+	// make sure the camera has actually been told to move
+	if (Transform.Location != NewPosition) {
+		// move the camera to the new position
+		Translate(NewPosition);
+	}
 }
 
 glm::mat4 Camera::GetViewMatrix() const
@@ -26,7 +49,7 @@ glm::mat4 Camera::GetViewMatrix() const
 void Camera::RotatePitch(float Amount)
 {
 	// rotating past -89 or 89 will result in a yaw flip and flip the cam
-	Transform.Rotation.x += Amount;
+	Transform.Rotation.x += Amount * CameraData.LookSensitivity;
 
 	// clamp the results between the two max values to avoid flip
 	if (Transform.Rotation.x > 89.99f) {
@@ -43,7 +66,7 @@ void Camera::RotatePitch(float Amount)
 void Camera::RotateYaw(float Amount)
 {
 	// this can currently increase to a max number
-	Transform.Rotation.y += Amount;
+	Transform.Rotation.y += Amount * CameraData.LookSensitivity;
 
 	// when the yaw gets to 360 change it to 0
 	Transform.Rotation.y = glm::mod(Transform.Rotation.y, 360.0f);
