@@ -32,6 +32,9 @@ public:
 	// return the graphics engine default texture
 	TexturePtr GetDefaultEngineTexture();
 
+	// return the graphics engine default material
+	MaterialPtr GetDefaultEngineMaterial();
+
 private: 
 
 	Game();
@@ -68,6 +71,9 @@ private:
 	Input* GameInput;
 
 	//temporary mesh variables
-	MeshPtr Cube;
-	MeshPtr Poly; 
+	ModelPtr Model;
+	ModelPtr Model2;
+
+	ModelPtr Wall;
+	ModelPtr Wall2;
 };

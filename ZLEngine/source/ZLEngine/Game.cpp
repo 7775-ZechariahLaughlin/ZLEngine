@@ -1,6 +1,6 @@
 #include "ZLEngine/Game.h"
 #include "ZLEngine/Graphics/GraphicsEngine.h"
-#include "ZLEngine/Graphics/Mesh.h"
+#include "ZLEngine/Graphics/Model.h"
 #include "ZLEngine/Input.h"
 #include "ZLEngine/Graphics/Camera.h"
 #include "ZLEngine/Graphics/Material.h"
@@ -37,6 +37,10 @@ TexturePtr Game::GetDefaultEngineTexture()
 {
 	return Graphics->DefaultEngineTexture;
 }
+MaterialPtr Game::GetDefaultEngineMaterial()
+{
+	return Graphics->DefaultEngineMaterial;
+}
 Game::Game()
 {
 	cout << "Game Initialised!" << endl;
@@ -63,6 +67,7 @@ void Game::Run()
 			L"game/shaders/TextureShader/TextureShader.svert",
 			L"game/shaders/TextureShader/TextureShader.sfrag"
 			});
+
 		// create the textures
 		TexturePtr TWood = Graphics->CreateTexture("game/textures/WoodTexture.jpg");
 		TexturePtr TSquares = Graphics->CreateTexture("game/textures/GreySquare.jpg");
@@ -73,14 +78,36 @@ void Game::Run()
 
 		// assign the base colour of the materials using the textures
 
-		//MWood->BaseColour = TWood;
+		MWood->BaseColour = TWood;
 		MSquares->BaseColour = TSquares;
 		// create a mesh
-		Poly = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, MSquares);
-		Cube = Graphics->CreateSimpleMeshShape(GeometricShapes::Cube, TextureShader, MWood);
+		Model = Graphics->CreateSimpleModelShape(GeometricShapes::Cube, TextureShader);
+		Model2 = Graphics->CreateSimpleModelShape(GeometricShapes::Cube, TextureShader);
+
+		// set materials of the models
+		Model->SetMaterialBySlot(0, MWood);
+		Model2->SetMaterialBySlot(0, MSquares);
 		
-		Poly->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
-		Cube->Transform.Location = Vector3(0.0f, -1.0f, 1.0f);
+		// transform the models location 
+		Model->Transform.Location = Vector3(1.0f, -1.0f, 1.0f);
+		Model2->Transform.Location = Vector3(-1.0f, -1.0f, -1.0f);
+
+		// import custom meshes
+		Wall = Graphics->ImportModel("game/models/Stone_Wall.obj", TextureShader);
+
+		// scale the wall
+		Wall->Transform.Scale = Vector3(0.008f);
+
+		// create a custom texture
+		TexturePtr TWall = Graphics->CreateTexture("game/textures/RockWall_BC.png");
+
+		// create a custom material
+		MaterialPtr MWall = make_shared<Material>();
+		MWall->BaseColour = TWall;
+
+		// apply the material
+		Wall->SetMaterialBySlot(1, MWall);
+
 	}
 	//as long as the game isn't over run the loop
 	while (!bIsGameOver) {
@@ -118,16 +145,15 @@ void Game::Update()
 	LastFrameTime = CurrentFrameTime;
 
 	//TODO: Handle logic
-	Poly->Transform.Rotation.x += 50.0f * GetFDeltaTime();
-	Poly->Transform.Rotation.y += 50.0f * GetFDeltaTime();
-	Poly->Transform.Rotation.z += 50.0f * GetFDeltaTime(); 
+	Model->Transform.Rotation.x += 50.0f * GetFDeltaTime();
+	Model->Transform.Rotation.y += 50.0f * GetFDeltaTime();
+	Model->Transform.Rotation.z += 50.0f * GetFDeltaTime();
 
-	Cube->Transform.Rotation.x += -25.0f * GetFDeltaTime();
-	Cube->Transform.Rotation.y += -25.0f * GetFDeltaTime();
-	Cube->Transform.Rotation.z += -25.0f * GetFDeltaTime();
+	Model2->Transform.Rotation.x += -25.0f * GetFDeltaTime();
+	Model2->Transform.Rotation.y += -25.0f * GetFDeltaTime();
+	Model2->Transform.Rotation.z += -25.0f * GetFDeltaTime();
 
-	Poly->Transform.Location.z -= 0.1f * GetFDeltaTime();
-	Cube->Transform.Location.z -= 0.6f * GetFDeltaTime();
+	Wall->Transform.Rotation.y += 25.0f * GetFDeltaTime();
 	
 	Vector3 CameraInput = Vector3(0.0f);
 	float MoveSpeed = 5.0f;
