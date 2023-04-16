@@ -74,6 +74,13 @@ private:
 	ModelPtr Model;
 	ModelPtr Model2;
 
-	ModelPtr Wall;
-	ModelPtr Wall2;
+	ModelPtr WallStack[35];
+
+	ModelPtr Floor; 
+	ModelPtr Floor2;
+
+	ModelPtr Lamp1;
+	ModelPtr Coin1;
+	ModelPtr Skull1;
+	ModelPtr Barrel1;
 };

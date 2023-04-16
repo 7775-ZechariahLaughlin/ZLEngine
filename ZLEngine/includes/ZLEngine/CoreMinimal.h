@@ -54,7 +54,8 @@ enum class GeometricShapes {
 	Polygon, 
 	Circle,
 	Pentagon,
-	Cube
+	Cube, 
+	Floor
 };
 
 // store the parameters required to create a shader program

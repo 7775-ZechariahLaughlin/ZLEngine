@@ -74,6 +74,16 @@ void Camera::RotateYaw(float Amount)
 	UpdateDirectionVectors();
 }
 
+void Camera::SetCameraSpeed(float Amount)
+{
+	CameraData.Speed = Amount;
+}
+
+void Camera::SetCameraFOV(float Amount)
+{
+
+}
+
 void Camera::UpdateDirectionVectors()
 {
 	// create a Vector3 to initialise a 0 direction

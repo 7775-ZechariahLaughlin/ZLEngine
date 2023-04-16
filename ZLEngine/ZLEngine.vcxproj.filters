@@ -57,6 +57,12 @@
     <ClInclude Include="includes\ZLEngine\Graphics\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\ZLEngine\GameObjects\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\GameObjects\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\stb_image\stb_image.cpp">
@@ -93,6 +99,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\ZLEngine\Graphics\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\GameObjects\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\GameObjects\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,12 +1,176 @@
 #version 460 core
 
+struct MaterialData {
+	// texture data
+	sampler2D TColour;
+	sampler2D TSpecular;
+	sampler2D TEmissive;
+
+	// multiplier
+	vec3 MColour;
+	vec3 MSpecular;
+	vec3 MEmissive;
+
+	float Shininess;
+};
+
+struct ShaderMaterial {
+	vec3 Colour;
+	vec3 Specular;
+	vec3 Emissive;
+	float Shininess;
+};
+
+// material imported from the engine C++
+uniform MaterialData ImportMat;
+
+// vertex position, normal value and texture coordinates
+in vec3 VPosition;
+in vec3 VNormals;
 in vec2 TexCoords;
+
+// position of the view camera
+in vec3 CamPosition;
+
+// return colour that gets put onto the mesh
 out vec4 OutColour;
 
-// texture data
-uniform sampler2D TextureColour;
+struct DirLight {
+	vec3 Colour;
+	vec3 Direction;
+	vec3 AmbientLight;
+};
+
+struct PointLight {
+	vec3 Colour;
+	vec3 Position;
+	float Attenuation;
+};
+
+// arrays of lights in the scene
+DirLight[2] DirLights;
+PointLight[50] PointLights;
+
+vec3 CalculateDirLight(ShaderMaterial SMat, vec3 ViewDir, DirLight Light);
+vec3 CalculatePointLight(ShaderMaterial SMat, vec3 ViewDir, PointLight Light);
 
 void main() {
+	// readable shader material
+	ShaderMaterial SMat;
+	// getting the colour values from the texture and multiplying them by the multiplier
+	SMat.Colour = texture(ImportMat.TColour, TexCoords).rgb * ImportMat.MColour;
+	SMat.Specular = texture(ImportMat.TSpecular, TexCoords).rgb * ImportMat.MSpecular;
+	SMat.Emissive = texture(ImportMat.TEmissive, TexCoords).rgb * ImportMat.MEmissive;
+	SMat.Shininess = ImportMat.Shininess;
+
+	// gives us a direction between the vertex and the camera
+	vec3 ViewDir = normalize(CamPosition - VPosition);
+
+	// create a custom directional light
+	DirLights[0].Colour = vec3(1.0f);
+	DirLights[0].Direction = vec3(20.0f, -0.4f, 20.0f);
+	DirLights[0].AmbientLight = vec3(0.001f);
+
+	// create a custom point light
+	PointLights[0].Colour = vec3(1.0f);
+	PointLights[0].Position = vec3(10.8f, 4.2f, 10.8f);
+	PointLights[0].Attenuation = 1.0f;
+
+	PointLights[1].Colour = vec3(0.992f, 0.800f, 0.543f);
+	PointLights[1].Position = vec3(-9.0f, 1.0f, -9.0f);
+	PointLights[1].Attenuation = 100.0f;
+
+	PointLights[2].Colour = vec3(0.605f, 0.066f, 0.117f);
+	PointLights[2].Position = vec3(-9.0f, 1.0f, 9.0f);
+	PointLights[2].Attenuation = 50.0f;
+
+	PointLights[3].Colour = vec3(0.059f, 0.320f, 0.727f);
+	PointLights[3].Position = vec3(9.0f, 1.0f, 9.0f);
+	PointLights[3].Attenuation = 75.0f;
+
+	PointLights[4].Colour = vec3(0.123f, 0.306f, 0.184f);
+	PointLights[4].Position = vec3(9.0f, 1.0f, -9.0f);
+	PointLights[4].Attenuation = 100.0f;
+
+	vec3 result = CalculatePointLight(SMat, ViewDir, PointLights[0]);
+
+	result += CalculatePointLight(SMat, ViewDir, PointLights[1]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[2]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[3]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[4]);
+	result += CalculateDirLight(SMat, ViewDir, DirLights[0]);
+
 	// texture() accepts colour and coordinates to create an OpenGL texture
-	OutColour = texture(TextureColour,  TexCoords);
+	OutColour = vec4(result, 1.0f);
+}
+
+vec3 CalculateDirLight(ShaderMaterial SMat, vec3 ViewDir, DirLight Light) {
+	// get the normalised light direction
+	vec3 LightDir = normalize(-Light.Direction);
+
+	// calculate the angle between the surface normal and the light direction
+	// dot product gives a value between 1 and -1 depending if the vectors are facing each other
+	float Angle = max(0.0, dot(normalize(VNormals), LightDir));
+
+	// create a minimum value of constant light on the material
+	vec3 AmbientLight = Light.AmbientLight * SMat.Colour;
+
+	// increase the ambient light value by the emissive value
+	AmbientLight += SMat.Emissive;
+
+	// mixture of light colour and the angle
+	vec3 FinalColour = Light.Colour * (Angle * SMat.Colour);
+
+	// get the reflection direction of the material surface
+	vec3 ReflectDir = reflect(-LightDir, normalize(VNormals));
+
+	// increase the light value of each vertex based on how shiny it should be
+	float SpecPower = pow(max(0.0, dot(ViewDir, ReflectDir)), SMat.Shininess * 128.0f);
+
+	// create the specular highlight based on colour, angle and specular power
+	vec3 FinalSpecular = SpecPower * (Angle * SMat.Colour);
+
+	// return the sum of all of the light factors
+	return vec3(AmbientLight + FinalColour + FinalSpecular);
+
+}
+
+vec3 CalculatePointLight(ShaderMaterial SMat, vec3 ViewDir, PointLight Light) {
+	// get the normalised light direction
+	vec3 LightDir = normalize(Light.Position - VPosition);
+
+	// calculate the distance between the light and the vertex
+	float Distance = length(Light.Position - VPosition);
+
+	// set a value between 0 and 1 depending on the distance vs attenuation
+	// 0 = no light, 1 = full light
+	float Attenuation = min(Light.Attenuation / (Distance * Distance), 1.0f);
+
+	// calculate the angle between the surface normal and the light direction
+	// dot product gives a value between 1 and -1 depending if the vectors are facing each other
+	float Angle = max(0.0, dot(normalize(VNormals), LightDir));
+
+	// create the falloff based on the angle and attenuation
+	float Falloff = Angle * Attenuation;
+
+	// create a minimum value of constant light on the material
+	vec3 AmbientLight = vec3(0.0f) * SMat.Colour;
+
+	// increase the ambient light value by the emissive value
+	AmbientLight += SMat.Emissive;
+
+	// mixture of light colour and the angle
+	vec3 FinalColour = Light.Colour * (Falloff * SMat.Colour);
+
+	// get the reflection direction of the material surface
+	vec3 ReflectDir = reflect(-LightDir, normalize(VNormals));
+
+	// increase the light value of each vertex based on how shiny it should be
+	float SpecPower = pow(max(0.0, dot(ViewDir, ReflectDir)), SMat.Shininess * 128.0f);
+
+	// create the specular highlight based on colour, angle and specular power
+	vec3 FinalSpecular = SpecPower * (Falloff * SMat.Colour);
+
+	// return the sum of all of the light factors
+	return vec3(AmbientLight + FinalColour + FinalSpecular);
 }

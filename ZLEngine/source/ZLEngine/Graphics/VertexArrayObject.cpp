@@ -29,8 +29,11 @@ VertexArrayObject::VertexArrayObject(GeometricShapes ChosenShape)
 		break;
 	case GeometricShapes::Cube:
 		ChosenPositions = CubePositions;
-		ChosenIndices = CubeIndicies;
+		ChosenIndices = CubeIndices;
 		break;
+	case GeometricShapes::Floor:
+		ChosenPositions = FloorPositions;
+		ChosenIndices = FloorIndices;
 	default:
 		break;
 	}

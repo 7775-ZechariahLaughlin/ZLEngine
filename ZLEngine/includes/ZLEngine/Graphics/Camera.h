@@ -49,6 +49,12 @@ public:
 	// rotate the camera based on pitch
 	void RotateYaw(float Amount);
 
+	// access and change the camera speed
+	void SetCameraSpeed(float Amount);
+
+	// zoom the camera with scroll wheel
+	void SetCameraFOV(float Amount);
+
 private:
 
 	// find the current direction vectors based on the rotation of the YAW and PITCH of the camera

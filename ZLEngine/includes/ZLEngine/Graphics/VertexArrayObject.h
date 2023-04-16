@@ -27,6 +27,21 @@ const IndicesMatrix PolyIndices{
 	0, 3, 1,	//Triangle 1
 	3, 2, 1		//Triangle 2
 };
+
+const PositionMatrix FloorPositions{
+	// x	// y	// z	//R		//G		//B		 //Tex Coords
+	-12.0f,	-12.0f,	0.0f,	0.0f,	1.0f,	0.0f,	 0.0f, 0.0f,   //bottom left
+	 12.0f,	-12.0f,	0.0f,	0.0f,	1.0f,	0.0f,	 12.0f, 0.0f,  //bottom right
+	 12.0f,	 12.0f,	0.0f,	0.0f,	1.0f,	0.0f,	 12.0f, 12.0f, //top right
+	-12.0f,	 12.0f, 0.0f,	0.0f,	1.0f,	0.0f,	 0.0f, 12.0f   //top left
+
+};
+
+const IndicesMatrix FloorIndices{
+	0, 3, 1,	//Triangle 1
+	3, 2, 1		//Triangle 2
+};
+
 const PositionMatrix CirclePositions{
 	// x		// y		// z  //R		//G		//B		 //Tex Coords
 	-0.375f,	0.375f,		0.0f,	0.0f,	1.0f,	0.0f,	 0.0f, 0.0f, //top left
@@ -98,7 +113,7 @@ const PositionMatrix CubePositions{
 	-0.5f,	-0.5f,	-0.5f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	// bot - bot - left		23
 };
 
-const IndicesMatrix CubeIndicies{
+const IndicesMatrix CubeIndices{
 	0,	1,	2,	// front tri 1
 	2,	3,	0,	// front tri 2
 	12, 13, 15,	// right tri 1
