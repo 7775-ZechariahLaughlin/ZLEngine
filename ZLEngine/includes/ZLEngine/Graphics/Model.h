@@ -30,6 +30,13 @@ public:
 	// return the imported model's file path
 	const char* GetFilePath() const { return ModelFilePath; }
 
+	// return the collision for this model
+	CollisionPtr GetCollision() const { return ModelCollision; }
+	
+	// add a collision to the model
+	CollisionPtr AddCollisionToModel(Vector3 Dimensions, Vector3 Offset = Vector3(0.0f));
+
+
 public:
 	// position, rotation and scale of all the meshes in the model
 	CTransform Transform;
@@ -53,4 +60,6 @@ private:
 
 	// imported file path
 	const char* ModelFilePath;
+
+	CollisionPtr ModelCollision;
 };

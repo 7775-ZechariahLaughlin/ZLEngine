@@ -1,11 +1,18 @@
 #include "ZLEngine/Graphics/Camera.h"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "ZLEngine/Game.h"
+#include "ZLEngine/Collisions/Collision.h"
+
 Camera::Camera()
 {
 	UpdateDirectionVectors();
 
 	Transform.Location -= Directions.Forward * 2.0f;
+
+	// @param1 - Position of collision
+	// @param2 - Offset of the location
+	// @param3 - Size of the camera collision
+	CameraCollision = make_shared<BoxCollision>(Transform.Location, Vector3(0.0f, -1.0f, 0.0f), Vector3(1.0f, 2.5f, 1.0f));
 
 }
 
@@ -82,6 +89,13 @@ void Camera::SetCameraSpeed(float Amount)
 void Camera::SetCameraFOV(float Amount)
 {
 
+}
+
+void Camera::Update()
+{
+	if (CameraCollision != nullptr) {
+		CameraCollision->SetLocation(Transform.Location);
+	}
 }
 
 void Camera::UpdateDirectionVectors()

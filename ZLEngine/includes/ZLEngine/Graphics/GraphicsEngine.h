@@ -41,6 +41,9 @@ public:
 	//create the 3D space for the model to relate itself to
 	void ApplyScreenTransformations(ShaderPtr Shader);
 
+	// remove a model from the model stack
+	void RemoveModel(ModelPtr ModelToRemove);
+
 public:
 	// default camera
 	CameraPtr EngineDefaultCam;

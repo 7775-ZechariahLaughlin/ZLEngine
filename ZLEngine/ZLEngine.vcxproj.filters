@@ -63,6 +63,27 @@
     <ClInclude Include="includes\ZLEngine\GameObjects\Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\ZLEngine\GameObjects\Pickup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\GameObjects\Obstacle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\GameObjects\Gate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\Collisions\Collision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\Handlers\SpawnHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\Physics\Gravity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ZLEngine\Handlers\ScreenText.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\stb_image\stb_image.cpp">
@@ -107,11 +128,34 @@
     <ClCompile Include="source\ZLEngine\GameObjects\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ZLEngine\GameObjects\Pickup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\GameObjects\Obstacle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\GameObjects\Gate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\Collisions\Collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\Handlers\SpawnHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\Physics\Gravity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ZLEngine\Handlers\ScreenText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="game\shaders\VertexShader\VertexShader.svert" />
     <None Include="game\shaders\VertexShader\VertexShader.sfrag" />
     <None Include="game\shaders\TextureShader\TextureShader.sfrag" />
     <None Include="game\shaders\TextureShader\TextureShader.svert" />
+    <None Include="game\shaders\WireframeShader\WireframeShader.sfrag" />
+    <None Include="game\shaders\WireframeShader\WireframeShader.svert" />
   </ItemGroup>
 </Project>

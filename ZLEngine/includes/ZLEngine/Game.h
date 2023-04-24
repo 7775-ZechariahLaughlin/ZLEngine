@@ -35,6 +35,9 @@ public:
 	// return the graphics engine default material
 	MaterialPtr GetDefaultEngineMaterial();
 
+	// remove a model from the viewport
+	void RemoveModelFromGame(ModelPtr ModelToRemove);
+
 private: 
 
 	Game();
@@ -64,6 +67,9 @@ private:
 	// shared pointer to the graphics class
 	GraphicsEnginePtr Graphics;
 
+	// shared pointer to the pickup class
+	PickupPtr Pickups;
+
 	// the time between each frame
 	double DeltaTime;
 
@@ -74,13 +80,18 @@ private:
 	ModelPtr Model;
 	ModelPtr Model2;
 
-	ModelPtr WallStack[35];
-
-	ModelPtr Floor; 
-	ModelPtr Floor2;
+	ModelPtr WallStack[50];
+	ModelPtr FloorStack[10];
 
 	ModelPtr Lamp1;
+	ModelPtr Lamp2;
 	ModelPtr Coin1;
+	ModelPtr Coin;
 	ModelPtr Skull1;
 	ModelPtr Barrel1;
+	ModelPtr Archway1;
+	ModelPtr Archway2;
+	// pickup variables
+
+	PickupPtr CoinPickup[11];
 };

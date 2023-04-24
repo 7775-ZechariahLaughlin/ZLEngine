@@ -18,7 +18,7 @@ struct STCameraData {
 	float FarClip = 1000.0f;
 
 	// how fast the camera rotates
-	float LookSensitivity = 25.0f;
+	float LookSensitivity = 0.2f;
 };
 class Camera {
 public: 
@@ -55,6 +55,12 @@ public:
 	// zoom the camera with scroll wheel
 	void SetCameraFOV(float Amount);
 
+	// update camera logic
+	void Update();
+
+	// get the collisiuon for the camera
+	CollisionPtr GetCameraCollision() const { return CameraCollision; }
+
 private:
 
 	// find the current direction vectors based on the rotation of the YAW and PITCH of the camera
@@ -70,4 +76,6 @@ private:
 
 	// hold all the extra camera info
 	STCameraData CameraData;
+
+	CollisionPtr CameraCollision;
 };

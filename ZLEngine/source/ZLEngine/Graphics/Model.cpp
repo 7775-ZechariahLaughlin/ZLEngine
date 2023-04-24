@@ -2,6 +2,8 @@
 #include "ZLEngine/Graphics/Mesh.h"
 #include "ZLEngine/Game.h"
 #include "ZLEngine/Graphics/Vertex.h"
+#include "ZLEngine/Collisions/Collision.h"
+#include "ZLEngine/GameObjects/Pickup.h"
 
 /* ASSIMP HEADERS */
 #include "assimp/Importer.hpp"
@@ -11,6 +13,7 @@
 Model::Model()
 {
 	ModelFilePath = "";
+	ModelCollision = nullptr;
 }
 
 Model::~Model()
@@ -88,6 +91,9 @@ void Model::Draw()
 		// draw the mesh using the material slot it has been assigned
 		LMesh->Draw(MaterialStack[LMesh->GetMaterialSlot()]);
 	}
+	if (ModelCollision != nullptr) {
+		ModelCollision->SetLocation(Transform.Location);
+	}
 }
 
 void Model::SetMaterialBySlot(zluint SlotIndex, MaterialPtr NewMaterial)
@@ -113,6 +119,13 @@ MaterialPtr Model::GetMaterialBySlot(zluint SlotIndex)
 	}
 
 	return MaterialStack[SlotIndex];
+}
+
+CollisionPtr Model::AddCollisionToModel(Vector3 Dimensions, Vector3 Offset)
+{
+	ModelCollision = make_shared<BoxCollision>(Transform.Location, Offset, Dimensions);
+
+	return ModelCollision;
 }
 
 void Model::FindAndImportSceneMeshes(aiNode* Node, const aiScene* Scene)

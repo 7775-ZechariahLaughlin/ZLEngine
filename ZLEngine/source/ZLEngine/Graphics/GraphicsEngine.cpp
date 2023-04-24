@@ -7,7 +7,7 @@
 #include "ZLEngine/Graphics/Camera.h"
 #include "ZLEngine/Graphics/Material.h"
 #include "ZLEngine/Graphics/Model.h"
-
+#include "ZLEngine/Collisions/Collision.h"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -126,8 +126,6 @@ void GraphicsEngine::ClearGraphics()
 
 void GraphicsEngine::Draw()
 {
-	ClearGraphics();
-
 	HandleWireframeMode(false);
 
 	// run through each model and call its draw method
@@ -135,7 +133,6 @@ void GraphicsEngine::Draw()
 		LModel->Draw();
 	}
 
-	PresentGraphics();
 }
 
 SDL_Window* GraphicsEngine::GetWindow() const
@@ -253,6 +250,21 @@ void GraphicsEngine::ApplyScreenTransformations(ShaderPtr Shader)
 
 	Shader->SetMat4("view", view);
 	Shader->SetMat4("projection", projection);
+}
+
+void GraphicsEngine::RemoveModel(ModelPtr ModelToRemove)
+{
+	// looking for the model in the model stack vector array
+	// we look through the whole vector and if we find the value then we assign the correct index
+	// this will equal .end() if it doesn't exist in the stack
+	ModelPtrStack::iterator ModelIndex = find(ModelStack.begin(), ModelStack.end(), ModelToRemove);
+
+	// if it's not in the array then stop the function
+	if (ModelIndex == ModelStack.end()) {
+		return;
+	}
+	// use the iterator/index to erase the object
+	ModelStack.erase(ModelIndex);
 }
 
 void GraphicsEngine::HandleWireframeMode(bool bShowWireframeMode)

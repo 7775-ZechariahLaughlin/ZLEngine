@@ -38,6 +38,22 @@ typedef vector<MaterialPtr> MaterialPtrStack;
 class Camera;
 typedef shared_ptr<Camera> CameraPtr;
 
+class Collision;
+typedef shared_ptr<Collision> CollisionPtr;
+typedef vector<CollisionPtr> CollisionPtrStack;
+
+class BoxCollision;
+typedef shared_ptr<BoxCollision> BoxCollisionPtr;
+
+class GameObject;
+typedef shared_ptr<GameObject> GameObjectPtr;
+
+class Pickup;
+typedef shared_ptr<Pickup> PickupPtr;
+
+class Obstacle;
+typedef shared_ptr<Obstacle> ObstaclePtr;
+
 //useful for shape data and VAOs Matrices
 typedef vector<float> PositionMatrix;
 typedef vector<zluint> IndicesMatrix;
@@ -68,4 +84,19 @@ struct VFShaderParams {
 enum class ShaderTypes {
 	Vertex = 0, 
 	Fragment
+};
+
+// the different types of obstacles that are in the game
+enum class ObstacleTypes {
+	Wall = 0,
+	Gate,
+	Barrel,
+	Box,
+	Lamp
+};
+
+// the different types of pickups in the game
+enum class PickupTypes {
+	Coin = 0,
+	Skull
 };
