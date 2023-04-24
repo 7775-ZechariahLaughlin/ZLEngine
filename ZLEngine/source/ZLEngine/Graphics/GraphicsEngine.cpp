@@ -8,6 +8,8 @@
 #include "ZLEngine/Graphics/Material.h"
 #include "ZLEngine/Graphics/Model.h"
 #include "ZLEngine/Collisions/Collision.h"
+#include "SDL2/SDL_ttf.h"
+#include "ZLEngine/Handlers/ScreenText.h"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -86,7 +88,7 @@ bool GraphicsEngine::InitGE(const char* WTitle, bool bFullScreen, int WWidth, in
 		cout << "SDL GL Context Failed: " << SDL_GetError() << endl;
 		return false;
 	}
-	
+
 	//to make glew work we need to mark experimental true
 	glewExperimental = GL_TRUE;
 
@@ -95,13 +97,14 @@ bool GraphicsEngine::InitGE(const char* WTitle, bool bFullScreen, int WWidth, in
 	if (InitGLEW != GLEW_OK) {
 
 		cout << "GLEW failed: " << glewGetErrorString(InitGLEW) << endl;
+		return false;
 	}
 
 	//enable 3D depth
 	glEnable(GL_DEPTH_TEST);
 
 	// create the default engine texture
-	DefaultEngineTexture = CreateTexture("Game/Textures/DefaultGrey.png");
+	DefaultEngineTexture = CreateTexture("game/textures/DefaultTextures/DefaultGrey.png");
 	// create the default engine material
 	// materials when created auto assign the default texture
 	DefaultEngineMaterial = make_shared<Material>();

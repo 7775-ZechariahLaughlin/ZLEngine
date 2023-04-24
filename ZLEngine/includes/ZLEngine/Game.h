@@ -64,6 +64,12 @@ private:
 	// boolean that ends the game
 	bool bIsGameOver;
 
+	// boolean that specifies whether the player is grounded or not
+	bool OnFloor;
+
+	// boolean that specifices whether the player is currently jumping
+	bool Jumping;
+
 	// shared pointer to the graphics class
 	GraphicsEnginePtr Graphics;
 
@@ -76,11 +82,12 @@ private:
 	// read the input of the player
 	Input* GameInput;
 
+
 	//temporary mesh variables
 	ModelPtr Model;
 	ModelPtr Model2;
 
-	ModelPtr WallStack[50];
+	ModelPtr WallStack[100];
 	ModelPtr FloorStack[10];
 
 	ModelPtr Lamp1;
@@ -89,9 +96,13 @@ private:
 	ModelPtr Coin;
 	ModelPtr Skull1;
 	ModelPtr Barrel1;
+	ModelPtr Box1;
+	ModelPtr Box2;
 	ModelPtr Archway1;
 	ModelPtr Archway2;
 	// pickup variables
 
 	PickupPtr CoinPickup[11];
+	ObstaclePtr BoxObstacle[16];
+	ObstaclePtr BarrelObstacle[10];
 };

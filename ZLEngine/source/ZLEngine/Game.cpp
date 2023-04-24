@@ -84,23 +84,20 @@ void Game::Run()
 			});
 
 		// create the textures
-		TexturePtr TWood = Graphics->CreateTexture("game/textures/WoodTexture.jpg");
-		TexturePtr TSquares = Graphics->CreateTexture("game/textures/GreySquare.jpg");
 		TexturePtr TConcrete = Graphics->CreateTexture("game/textures/ConcreteWall/Old_Cement_Wall.jpg");
 		TexturePtr TWall = Graphics->CreateTexture("game/textures/ConcreteWall/Stone_Wall_BC.jpg");
 		TexturePtr TLampBase = Graphics->CreateTexture("game/textures/StreetLamp/germany010.jpg");
 		TexturePtr TLampSoil = Graphics->CreateTexture("game/textures/StreetLamp/ground020.jpg");
 		TexturePtr TLampPost = Graphics->CreateTexture("game/textures/StreetLamp/Marmite.jpg");
-		TexturePtr TGlass = Graphics->CreateTexture("game/textures/GlassBlue.png");
-		TexturePtr TWarmth = Graphics->CreateTexture("game/textures/WarmYellow.png");
+		TexturePtr TGlass = Graphics->CreateTexture("game/textures/DefaultTextures/GlassBlue.png");
+		TexturePtr TWarmth = Graphics->CreateTexture("game/textures/DefaultTextures/WarmYellow.png");
 		TexturePtr TBarrel = Graphics->CreateTexture("game/textures/WoodBarrel/WBarrel_BC.png");
 		TexturePtr TCoin = Graphics->CreateTexture("game/textures/GoldCoin/Gold_Coin.png");
 		TexturePtr TArchway = Graphics->CreateTexture("game/textures/Archway/ArchwayLow_BC.jpg");
+		TexturePtr TBox = Graphics->CreateTexture("game/textures/WoodBox/WoodBox_BC.png");
+		TexturePtr TSkull = Graphics->CreateTexture("game/textures/SkullPickup_BC.png");
 		
-
 		// create the materials
-		MaterialPtr MWood = make_shared<Material>();
-		MaterialPtr MSquares = make_shared<Material>();
 		MaterialPtr MWall = make_shared<Material>();
 		MaterialPtr MLampBase= make_shared<Material>();
 		MaterialPtr MLampSoil = make_shared<Material>();
@@ -111,10 +108,10 @@ void Game::Run()
 		MaterialPtr MCoin = make_shared<Material>();
 		MaterialPtr MConcrete = make_shared<Material>();
 		MaterialPtr MArchway = make_shared<Material>();
+		MaterialPtr MBox = make_shared<Material>();
+		MaterialPtr MSkull = make_shared<Material>();
 	
 		// assign the base colour of the materials using the textures
-		MWood->BaseColour.TextureV3 = TWood;
-		MSquares->BaseColour.TextureV3 = TSquares;
 		MWall->BaseColour.TextureV3 = TWall;
 		MLampBase->BaseColour.TextureV3 = TLampBase;
 		MLampSoil->BaseColour.TextureV3 = TLampSoil;
@@ -125,6 +122,8 @@ void Game::Run()
 		MCoin->BaseColour.TextureV3 = TCoin;
 		MConcrete->BaseColour.TextureV3 = TConcrete;
 		MArchway->BaseColour.TextureV3 = TArchway;
+		MBox->BaseColour.TextureV3 = TBox;
+		MSkull->BaseColour.TextureV3 = TSkull;
 
 		// assign any emissive colours for lighting
 		MWarmth->EmissiveColour.TextureV3 = TWarmth;
@@ -134,14 +133,14 @@ void Game::Run()
 		Model2 = Graphics->ImportModel("game/models/primitives/Sphere.fbx", TextureShader);
 		Lamp1 = Graphics->ImportModel("game/models/Street_Lamp.obj", TextureShader);
 		Lamp2 = Graphics->ImportModel("game/models/Street_Lamp.obj", TextureShader);
-		Barrel1 = Graphics->ImportModel("game/models/Wood_Barrel.obj", TextureShader);
 		Archway1 = Graphics->ImportModel("game/models/Archway.obj", TextureShader);
+		Skull1 = Graphics->ImportModel("game/models/Skull_Pickup.fbx", TextureShader);
 
 		// handle wall creation, there will be lots so a loop will be easier to create textures, assign materials and scale them (walls will be the same size unless necessary to change)
-		for (zluint i = 0; i < 50; i++) {
+		for (zluint i = 0; i < 100; i++) {
 			WallStack[i] = Graphics->ImportModel("game/models/Concrete_Wall.obj", TextureShader);
 			WallStack[i]->SetMaterialBySlot(1, MWall);
-			WallStack[i]->Transform.Scale = Vector3(0.29f, 0.25f, 0.38f);
+			WallStack[i]->Transform.Scale = Vector3(0.29f, 0.45f, 0.38f);
 		}
 
 		// handle floor creation
@@ -155,7 +154,19 @@ void Game::Run()
 			CoinPickup[i] = make_shared<Pickup>(Graphics->ImportModel("game/models/Gold_Coin.obj", TextureShader), 50);
 			CoinPickup[i]->ReturnPickupModel()->SetMaterialBySlot(1, MCoin);
 			CoinPickup[i]->ReturnPickupModel()->Transform.Scale = Vector3(0.33f);
-			CoinPickup[i]->ReturnPickupModel()->AddCollisionToModel(Vector3(0.33f), Vector3(0.0f));
+		}
+
+		// handle box obstacle creation
+		for (zluint i = 0; i < 16; i++) {
+			BoxObstacle[i] = make_shared<Obstacle>(Graphics->ImportModel("game/models/Wood_Box.obj", TextureShader));
+			BoxObstacle[i]->ReturnObstacleModel()->Transform.Scale = Vector3(0.08f);
+			BoxObstacle[i]->ReturnObstacleModel()->SetMaterialBySlot(1, MBox);
+		}
+		// handle box obstacle creation
+		for (zluint i = 0; i < 10; i++) {
+			BarrelObstacle[i] = make_shared<Obstacle>(Graphics->ImportModel("game/models/Wood_Barrel.obj", TextureShader));
+			BarrelObstacle[i]->ReturnObstacleModel()->Transform.Scale = Vector3(0.15f);
+			BarrelObstacle[i]->ReturnObstacleModel()->SetMaterialBySlot(1, MBarrel);
 		}
 
 		// set materials of the models
@@ -169,34 +180,47 @@ void Game::Run()
 		Lamp2->SetMaterialBySlot(2, MLampSoil);
 		Lamp2->SetMaterialBySlot(3, MLampPost);
 		Lamp2->SetMaterialBySlot(4, MLampPost);
-		Barrel1->SetMaterialBySlot(1, MBarrel);
 		Archway1->SetMaterialBySlot(0, MArchway);
+		Skull1->SetMaterialBySlot(1, MSkull);
 		
 		// transform the models location 
 		// transform misc models
-		Model2->Transform.Location = Vector3(10.0f, 4.7f, 10.0f);
-		Lamp1->Transform.Location = Vector3(10.0f, 0.0f, 10.0f);
-		Lamp2->Transform.Location = Vector3(10.8f, 0.0f, 10.8f);
-		Barrel1->Transform.Location = Vector3(3.0f, 0.0f, -3.0f);
+		Model2->Transform.Location = Vector3(10.0f, 5.2f, 10.0f);
+		Lamp1->Transform.Location = Vector3(10.0f, 0.5f, 10.0f);
+		Lamp2->Transform.Location = Vector3(10.8f, 0.5f, 10.8f);
 		Archway1->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+		Skull1->Transform.Location = Vector3(7.0f);
+
+		// transform box obstacles
+		BoxObstacle[0]->ReturnObstacleModel()->Transform.Location = Vector3(3.4f, 1.7f, 1.2f);
+		BoxObstacle[1]->ReturnObstacleModel()->Transform.Location = Vector3(3.4f, 1.7f, -1.2f);
+		BoxObstacle[2]->ReturnObstacleModel()->Transform.Location = Vector3(5.8f, 1.7f, -3.6f);
+		BoxObstacle[3]->ReturnObstacleModel()->Transform.Location = Vector3(5.8f, 1.7f, -6.0f);
+		BoxObstacle[4]->ReturnObstacleModel()->Transform.Location = Vector3(5.8f, 1.7f, -8.4f);
+		BoxObstacle[5]->ReturnObstacleModel()->Transform.Location = Vector3(3.0f, 1.7f, -13.8f);
+
+		// transform barrel obstacles
+		BarrelObstacle[0]->ReturnObstacleModel()->Transform.Location = Vector3(3.5f, 0.5f, -3.4f);
+		BarrelObstacle[1]->ReturnObstacleModel()->Transform.Location = Vector3(4.8f, 0.5f, -10.5f);
+		BarrelObstacle[2]->ReturnObstacleModel()->Transform.Location = Vector3(4.8f, 0.5f, -12.1f);
 
 		// transform pickups
-		CoinPickup[1]->ReturnPickupModel()->Transform.Location = Vector3(-9.0f, 0.5f, 9.0f);
-		CoinPickup[2]->ReturnPickupModel()->Transform.Location = Vector3(10.0f, 0.5f, -11.5f);
-		CoinPickup[3]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -12.5f);
-		CoinPickup[4]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -10.5f);
-		CoinPickup[5]->ReturnPickupModel()->Transform.Location = Vector3(-6.0f, 0.5f, -16.0f);
-		CoinPickup[6]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
-		CoinPickup[7]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -10.5f);
-		CoinPickup[8]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
+		CoinPickup[0]->ReturnPickupModel()->Transform.Location = Vector3(-9.0f, 0.5f, 9.0f);
+		CoinPickup[1]->ReturnPickupModel()->Transform.Location = Vector3(10.0f, 0.5f, -11.5f);
+		CoinPickup[2]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -12.5f);
+		CoinPickup[3]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -10.5f);
+		CoinPickup[4]->ReturnPickupModel()->Transform.Location = Vector3(-6.0f, 0.5f, -16.0f);
+		CoinPickup[5]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
+		CoinPickup[6]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -10.5f);
+		CoinPickup[7]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
 		
 		// transform floors
 		FloorStack[0]->Transform.Location = Vector3(0.0f, 0.5f, -1.5f);
-		FloorStack[1]->Transform.Location = Vector3(-6.0f, 0.5f, -30.0f);
+		FloorStack[1]->Transform.Location = Vector3(-6.0f, 0.5f, -32.0f);
 		FloorStack[2]->Transform.Location = Vector3(-30.0f, 0.5f, -6.0f);
 		FloorStack[3]->Transform.Location = Vector3(-20.0f, 0.5f, -52.0f);
 		FloorStack[4]->Transform.Location = Vector3(-34.0f, 0.5f, -33.0f);
-		FloorStack[5]->Transform.Location = Vector3(-72.0f, 0.5f, -10.0f);
+		FloorStack[5]->Transform.Location = Vector3(-70.0f, 0.5f, -10.0f);
 		FloorStack[6]->Transform.Location = Vector3(-100.0f, 0.5f, -23.0f);
 		FloorStack[7]->Transform.Location = Vector3(-98.0f, 0.5f, -30.0f);
 		FloorStack[8]->Transform.Location = Vector3(-98.0f, 0.5f, -44.0f);
@@ -244,8 +268,40 @@ void Game::Run()
 		WallStack[24]->Transform.Location = Vector3(-11.8f, 0.0f, -31.3f);
 		WallStack[25]->Transform.Location = Vector3(-11.8f, 0.0f, -37.1f);
 		
-		// hallway one east wall
+		// hallway one east walls
 		WallStack[27]->Transform.Location = Vector3(-15.0f, 0.0f, -39.6f);
+		WallStack[28]->Transform.Location = Vector3(-20.8f, 0.0f, -39.6f);
+		WallStack[29]->Transform.Location = Vector3(-26.6f, 0.0f, -39.6f);
+
+		// hallway one west walls
+		WallStack[30]->Transform.Location = Vector3(-2.3f, 0.0f, -49.2f);
+		WallStack[31]->Transform.Location = Vector3(-8.1f, 0.0f, -49.2f);
+		
+		// hallway two east walls
+		WallStack[32]->Transform.Location = Vector3(-13.5f, 0.0f, 0.9f);
+		WallStack[33]->Transform.Location = Vector3(-19.2f, 0.0f, 0.9f);
+		WallStack[34]->Transform.Location = Vector3(-25.0f, 0.0f, 0.9f);
+		WallStack[35]->Transform.Location = Vector3(-30.8f, 0.0f, 0.9f);
+		WallStack[36]->Transform.Location = Vector3(-36.6f, 0.0f, 0.9f);
+		WallStack[37]->Transform.Location = Vector3(-42.4f, 0.0f, 0.9f);
+
+		// hallway two west walls
+		WallStack[38]->Transform.Location = Vector3(-14.3f, 0.0f, -12.4f);
+		WallStack[39]->Transform.Location = Vector3(-20.0f, 0.0f, -12.4f);
+		WallStack[40]->Transform.Location = Vector3(-25.8f, 0.0f, -12.4f);
+		WallStack[41]->Transform.Location = Vector3(-43.2f, 0.0f, -12.4f);
+
+		// room two north walls
+		WallStack[42]->Transform.Location = Vector3(-11.4f, 0.0f, -51.7f);
+		WallStack[43]->Transform.Location = Vector3(-11.4f, 0.0f, -57.5f);
+
+		// room two west walls
+		WallStack[44]->Transform.Location = Vector3(-14.7f, 0.0f, -60.7f);
+		WallStack[45]->Transform.Location = Vector3(-20.5f, 0.0f, -60.7f);
+		WallStack[46]->Transform.Location = Vector3(-26.3f, 0.0f, -60.7f);
+
+		// room two east walls
+		WallStack[47]->Transform.Location = Vector3(-28.7f, 0.0f, -57.4f);
 
 		// rotate walls
 		WallStack[0]->Transform.Rotation.y += 90.0f;
@@ -253,8 +309,10 @@ void Game::Run()
 		WallStack[2]->Transform.Rotation.y += 90.0f;
 		WallStack[3]->Transform.Rotation.y += 90.0f;
 		WallStack[4]->Transform.Rotation.y += 90.0f;
-		WallStack[11]->Transform.Rotation.y += 90.0f;
-		WallStack[12]->Transform.Rotation.y += 90.0f;
+		WallStack[7]->Transform.Rotation.y += 180.0f;
+		WallStack[8]->Transform.Rotation.y += 180.0f;
+		WallStack[11]->Transform.Rotation.y += 270.0f;
+		WallStack[12]->Transform.Rotation.y += 270.0f;
 		WallStack[15]->Transform.Rotation.y += 270.0f;
 		WallStack[16]->Transform.Rotation.y += 270.0f;
 		WallStack[17]->Transform.Rotation.y += 270.0f;
@@ -266,15 +324,18 @@ void Game::Run()
 		WallStack[23]->Transform.Rotation.y += 270.0f;
 		WallStack[24]->Transform.Rotation.y += 270.0f;
 		WallStack[25]->Transform.Rotation.y += 270.0f;
+		WallStack[42]->Transform.Rotation.y += 90.0f;
+		WallStack[43]->Transform.Rotation.y += 90.0f;
+		WallStack[47]->Transform.Rotation.y += 90.0f;
 		
 
 		//scale the floors
 		FloorStack[0]->Transform.Scale = Vector3(24.0f, 1.0f, 27.0f);
 		FloorStack[1]->Transform.Scale = Vector3(12.0f, 1.0f, 36.0f);
-		FloorStack[2]->Transform.Scale = Vector3(36.0f, 1.0f, 12.0f);
-		FloorStack[3]->Transform.Scale = Vector3(16.0f, 1.0f, 24.0f);
+		FloorStack[2]->Transform.Scale = Vector3(36.0f, 1.0f, 14.0f);
+		FloorStack[3]->Transform.Scale = Vector3(17.0f, 1.0f, 24.0f);
 		FloorStack[4]->Transform.Scale = Vector3(12.0f, 1.0f, 42.0f);
-		FloorStack[5]->Transform.Scale = Vector3(48.0f, 1.0f, 36.0f);
+		FloorStack[5]->Transform.Scale = Vector3(50.0f, 1.0f, 36.0f);
 		FloorStack[6]->Transform.Scale = Vector3(10.0f);
 		FloorStack[7]->Transform.Scale = Vector3(3.0f, 1.0f, 4.5f);
 		FloorStack[8]->Transform.Scale = Vector3(16.0f, 1.0f, 24.0f);
@@ -283,9 +344,8 @@ void Game::Run()
 		Lamp1->Transform.Scale = Vector3(0.45f);
 		Lamp2->Transform.Scale = Vector3(0.45f);
 		Model2->Transform.Scale = Vector3(0.38f);
-		Barrel1->Transform.Scale = Vector3(0.15f);
 		Archway1->Transform.Scale = Vector3(0.6f);
-		
+
 		// add collisions to models
 		Lamp1->AddCollisionToModel(Vector3(1.5f, 5.4f, 1.5f), Vector3(0.0f, 2.7f, 0.0f));
 		Lamp2->AddCollisionToModel(Vector3(1.5f, 5.4f, 1.5f), Vector3(0.0f, 2.7f, 0.0f));
@@ -293,13 +353,23 @@ void Game::Run()
 		FloorStack[0]->AddCollisionToModel(Vector3(24.0f, 1.0f, 27.0f), Vector3(0.0f, -0.5f, 0.0f));
 		FloorStack[1]->AddCollisionToModel(Vector3(12.0f, 1.0f, 36.0f), Vector3(0.0f, -0.5f, 0.0f));
 		FloorStack[2]->AddCollisionToModel(Vector3(36.0f, 1.0f, 12.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[3]->AddCollisionToModel(Vector3(16.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
+		FloorStack[3]->AddCollisionToModel(Vector3(17.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
 		FloorStack[4]->AddCollisionToModel(Vector3(12.0f, 1.0f, 42.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[5]->AddCollisionToModel(Vector3(48.0f, 1.0f, 36.0f), Vector3(0.0f, -0.5f, 0.0f));
+		FloorStack[5]->AddCollisionToModel(Vector3(50.0f, 1.0f, 36.0f), Vector3(0.0f, -0.5f, 0.0f));
 		FloorStack[6]->AddCollisionToModel(Vector3(10.0f, 1.0f, 10.0f), Vector3(0.0f, -0.5f, 0.0f));
 		FloorStack[7]->AddCollisionToModel(Vector3(3.0f, 1.0f, 4.5f), Vector3(0.0f, -0.5f, 0.0f));
 		FloorStack[8]->AddCollisionToModel(Vector3(16.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
 		FloorStack[9]->AddCollisionToModel(Vector3(30.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
+		
+
+		// add collisions to coins, this is done after transformations and scaling as it needs data from both
+		for (zluint i = 0; i < 11; i++) {
+			CoinPickup[i]->ReturnPickupModel()->AddCollisionToModel(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.0f, 0.7f, 0.0f));
+		}
+		// add collisions to box obstacles
+		for (zluint i = 0; i < 16; i++) {
+			BoxObstacle[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(2.4f, 2.4f, 2.4f), Vector3(0.0f));
+		}
 		
 	}
 	//as long as the game isn't over run the loop
@@ -325,9 +395,13 @@ void Game::ProcessInput()
 
 	Vector3 CameraInput = Vector3(0.0f);
 	float MoveSpeed = 5.0f;
+	float MaxJumpHeight = 8.0f;
 	Graphics->EngineDefaultCam->SetCameraSpeed(5.0f);
 	CDirection CamDirections = Graphics->EngineDefaultCam->GetDirections();
 
+	if (!OnFloor) {
+		CameraInput += -CamDirections.Up;
+	}
 	// move cam forward
 	if (GameInput->IsKeyDown(SDL_SCANCODE_W)) {
 		CameraInput += CamDirections.Forward;
@@ -355,8 +429,13 @@ void Game::ProcessInput()
 	}
 	// move cam down
 	if (GameInput->IsKeyDown(SDL_SCANCODE_E)) {
-		CameraInput += -CamDirections.Up;
-		cout << "Movement | Moving Down..." << endl;
+		if (!OnFloor) {
+			CameraInput += -CamDirections.Up;
+			cout << "Movement | Moving Down..." << endl;
+		}
+		else {
+			cout << "Movement | On the floor!" << endl;
+		}
 	}
 	// multiply the move speed for running
 	if (GameInput->IsKeyDown(SDL_SCANCODE_LSHIFT)) {
@@ -374,11 +453,17 @@ void Game::ProcessInput()
 	// jump
 	if (GameInput->IsKeyDown(SDL_SCANCODE_SPACE)) {
 		cout << "Movement | Jumping..." << endl;
+		if (!Jumping) {
+			for (int i = 0; i <= 6; i++) {
+				Graphics->EngineDefaultCam->SetCameraSpeed(30.0f);
+				Graphics->EngineDefaultCam->AddMovementInput(CamDirections.Up);
+			}
+			Jumping = true;
+			OnFloor = false;
+		}
 	}
 
 	CameraInput *= MoveSpeed * GetFDeltaTime();
-
-	// TODO: Create Gravity
 
 	Graphics->EngineDefaultCam->AddMovementInput(CameraInput);
 
@@ -390,10 +475,6 @@ void Game::ProcessInput()
 	}
 	else {
 		GameInput->ShowCursor(true);
-	}
-	// test inputs
-	if (GameInput->IsMouseButtonDown(MouseButtons::LEFT)) {
-		cout << "Movement | Left Mouse button down...";
 	}
 
 }
@@ -420,13 +501,19 @@ void Game::Update()
 
 	Graphics->EngineDefaultCam->Update();
 
+	// pointer to the camera collision box
 	CollisionPtr CamCol = Graphics->EngineDefaultCam->GetCameraCollision();
+
 	//TODO: Any collisions of models in the game with camera
-	if (Lamp1 != nullptr && CamCol->IsOverlapping(*Lamp1->GetCollision())) {
-		
+	for (zluint i = 0; i < 10; i++) {
+		if (CamCol->IsOverlapping(*FloorStack[i]->GetCollision())) {
+			OnFloor = true;
+			Jumping = false;
+		}
 	}
-
-
+	if (Archway1 != nullptr && CamCol->IsOverlapping(*Archway1->GetCollision())) {
+		RemoveModelFromGame(Archway1);
+	}
 
 }
 
@@ -436,16 +523,12 @@ void Game::Draw()
 
 	Graphics->Draw();
 
+	// pointer to the camera collision box
 	CollisionPtr CamCol = Graphics->EngineDefaultCam->GetCameraCollision();
 
-	if (Lamp1 != nullptr && CamCol->IsOverlapping(*Lamp1->GetCollision())){
-		Lamp1->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 1.0f));
-		CamCol->DebugDraw(Vector3(1.0f, 0.0f, 1.0f));
-	}
-	else {
-		Lamp1->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-		CamCol->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	}
+	CamCol->DebugDraw(Vector3(0.0f, 1.0f, 0.0f));
+
+	Lamp1->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	FloorStack[0]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	FloorStack[1]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	FloorStack[2]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
@@ -457,12 +540,10 @@ void Game::Draw()
 	FloorStack[8]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	FloorStack[9]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	Archway1->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	Graphics->PresentGraphics();
-	for (zluint i = 0; i < 11; i++) {
-		CoinPickup[i]->ReturnPickupModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	}
+	CoinPickup[0]->ReturnPickupModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	BoxObstacle[0]->ReturnObstacleModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 
-	
+	Graphics->PresentGraphics();
 }
 
 void Game::CloseGame()

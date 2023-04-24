@@ -8,9 +8,6 @@ public:
 	Pickup(ModelPtr ModelToUse, zluint PointValue);
 	~Pickup();
 
-	// set the model for the pickup
-	void SetPickupModel(ModelPtr ModelToUse);
-
 	// returns the pickups model
 	ModelPtr ReturnPickupModel();
 
@@ -31,8 +28,5 @@ private:
 	
 
 private:
-	// pointer to the graphics engine
-	GraphicsEnginePtr Graphics;
-
 	
 };

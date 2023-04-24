@@ -27,8 +27,8 @@ Available: https://www.turbosquid.com/3d-models/medieval-wall-3d-model-1469745
 Wood Barrel 3D - Made By feercg on TurboSquid
 Available: https://www.turbosquid.com/3d-models/wood-barrel-3d-1361276
 
-Wooden Box 3D Model - Made By RensiCG on TurboSquid
-Available: https://www.turbosquid.com/3d-models/wooden-box-3d-model-1617331
+3D Wooden Box Model - Made By MinoD on TurboSquid
+Available: https://www.turbosquid.com/3d-models/3d-wooden-box-model-1304417
 
 
 

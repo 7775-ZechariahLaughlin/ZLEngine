@@ -15,8 +15,10 @@ public:
 
 	//show the newest frame graphics
 	void PresentGraphics();
+
 	//clear the old frame graphics
 	void ClearGraphics();
+
 	//handle the rendering of graphics
 	void Draw();
 
@@ -43,6 +45,7 @@ public:
 
 	// remove a model from the model stack
 	void RemoveModel(ModelPtr ModelToRemove);
+
 
 public:
 	// default camera

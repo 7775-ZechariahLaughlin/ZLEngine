@@ -7,6 +7,9 @@ Camera::Camera()
 {
 	UpdateDirectionVectors();
 
+	Transform.Location = Vector3(8.0f, 2.5f, 8.0f);
+	Transform.Rotation.y = 180.0f;
+
 	Transform.Location -= Directions.Forward * 2.0f;
 
 	// @param1 - Position of collision
@@ -31,10 +34,10 @@ void Camera::AddMovementInput(Vector3 Direction)
 	Direction = glm::normalize(Direction);
 
 	// set the velocity of the camera using the speed and input direction
-	Vector3 Vel = Direction * (CameraData.Speed * Game::GetGameInstance().GetFDeltaTime());
+	Velocity = Direction * (CameraData.Speed * Game::GetGameInstance().GetFDeltaTime());
 
 	// create a new location for the camera based on it's position and current velocity
-	Vector3 NewPosition = Transform.Location + Vel;
+	Vector3 NewPosition = Transform.Location + Velocity;
 
 	// make sure the camera has actually been told to move
 	if (Transform.Location != NewPosition) {

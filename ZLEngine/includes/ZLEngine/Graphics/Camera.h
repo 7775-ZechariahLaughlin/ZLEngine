@@ -78,4 +78,7 @@ private:
 	STCameraData CameraData;
 
 	CollisionPtr CameraCollision;
+
+	// the current velocity of the camera
+	Vector3 Velocity;
 };

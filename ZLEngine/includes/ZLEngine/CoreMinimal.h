@@ -54,6 +54,9 @@ typedef shared_ptr<Pickup> PickupPtr;
 class Obstacle;
 typedef shared_ptr<Obstacle> ObstaclePtr;
 
+class ScreenText;
+typedef shared_ptr<ScreenText> ScreenTextPtr;
+
 //useful for shape data and VAOs Matrices
 typedef vector<float> PositionMatrix;
 typedef vector<zluint> IndicesMatrix;

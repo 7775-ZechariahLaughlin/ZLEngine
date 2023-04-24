@@ -22,10 +22,6 @@ Pickup::~Pickup()
 	Model = nullptr;
 }
 
-void Pickup::SetPickupModel(ModelPtr ModelToUse)
-{
-}
-
 ModelPtr Pickup::ReturnPickupModel()
 {
 	return Model;
