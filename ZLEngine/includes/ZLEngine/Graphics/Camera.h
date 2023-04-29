@@ -30,6 +30,9 @@ public:
 	// move the camera in a direction in 3D space
 	void AddMovementInput(Vector3 Direction);
 
+	// move the player in a direction in 3D space
+	void AddMovementInput(Vector3 Direction, PlayerPtr Player);
+
 	// return the transform data
 	CTransform GetTransforms() const { return Transform; }
 

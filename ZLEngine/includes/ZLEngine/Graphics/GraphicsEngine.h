@@ -51,6 +51,9 @@ public:
 	// default camera
 	CameraPtr EngineDefaultCam;
 
+	// player camera
+	CameraPtr PlayerCamera;
+
 	// default texture
 	TexturePtr DefaultEngineTexture;
 

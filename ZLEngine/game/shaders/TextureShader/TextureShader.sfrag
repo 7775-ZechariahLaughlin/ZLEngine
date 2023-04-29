@@ -72,32 +72,57 @@ void main() {
 	DirLights[0].AmbientLight = vec3(0.001f);
 
 	// create a custom point light
-	PointLights[0].Colour = vec3(1.0f);
-	PointLights[0].Position = vec3(10.8f, 4.2f, 10.8f);
-	PointLights[0].Attenuation = 1.0f;
+	PointLights[0].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[0].Position = vec3(10.0f, 5.2f, 10.0f);
+	PointLights[0].Attenuation = 50.0f;
 
-	PointLights[1].Colour = vec3(0.992f, 0.800f, 0.543f);
-	PointLights[1].Position = vec3(-9.0f, 1.0f, -9.0f);
-	PointLights[1].Attenuation = 100.0f;
+	PointLights[1].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[1].Position = vec3(-9.0f, 5.2f, 10.8f);
+	PointLights[1].Attenuation = 50.0f;
 
-	PointLights[2].Colour = vec3(0.605f, 0.066f, 0.117f);
-	PointLights[2].Position = vec3(-9.0f, 1.0f, 9.0f);
+	PointLights[2].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[2].Position = vec3(-10.0f, 5.2f, -10.0f);
 	PointLights[2].Attenuation = 50.0f;
 
-	PointLights[3].Colour = vec3(0.059f, 0.320f, 0.727f);
-	PointLights[3].Position = vec3(9.0f, 1.0f, 9.0f);
-	PointLights[3].Attenuation = 75.0f;
+	PointLights[3].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[3].Position = vec3(-44.5f, 5.2f, -12.0f);
+	PointLights[3].Attenuation = 50.0f;
 
-	PointLights[4].Colour = vec3(0.123f, 0.306f, 0.184f);
-	PointLights[4].Position = vec3(9.0f, 1.0f, -9.0f);
-	PointLights[4].Attenuation = 100.0f;
+	PointLights[4].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[4].Position = vec3(-1.0f, 5.2f, -44.0f);
+	PointLights[4].Attenuation = 50.0f;
+
+	PointLights[5].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[5].Position = vec3(-38.5f, 5.2f, -50.0f);
+	PointLights[5].Attenuation = 50.0f;
+	
+	PointLights[6].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[6].Position = vec3(-94.0f, 5.2f, 2.5f);
+	PointLights[6].Attenuation = 50.0f;
+	
+	PointLights[7].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[7].Position = vec3(-71.5f, 5.2f, -29.0f);
+	PointLights[7].Attenuation = 50.0f;
+	
+	PointLights[8].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[8].Position = vec3(-102.0f, 5.2f, -53.0f);
+	PointLights[8].Attenuation = 50.0f;
+	
+	PointLights[9].Colour = vec3(0.965f, 0.804f, 0.545f);
+	PointLights[9].Position = vec3(-65.0f, 5.2f, -65.0f);
+	PointLights[9].Attenuation = 50.0f;
+
 
 	vec3 result = CalculatePointLight(SMat, ViewDir, PointLights[0]);
-
 	result += CalculatePointLight(SMat, ViewDir, PointLights[1]);
 	result += CalculatePointLight(SMat, ViewDir, PointLights[2]);
 	result += CalculatePointLight(SMat, ViewDir, PointLights[3]);
 	result += CalculatePointLight(SMat, ViewDir, PointLights[4]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[5]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[6]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[7]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[8]);
+	result += CalculatePointLight(SMat, ViewDir, PointLights[9]);
 	result += CalculateDirLight(SMat, ViewDir, DirLights[0]);
 
 	// texture() accepts colour and coordinates to create an OpenGL texture

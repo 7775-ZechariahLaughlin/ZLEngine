@@ -25,6 +25,10 @@ public:
 protected:
 	GraphicsEnginePtr Graphics;
 
+	CollisionPtr ObjectCollision;
+
+	ModelPtr ObjectModel;
+
 protected:
 
 private:

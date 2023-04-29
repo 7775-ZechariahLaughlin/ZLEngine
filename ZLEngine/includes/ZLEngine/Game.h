@@ -84,10 +84,9 @@ private:
 
 
 	//temporary mesh variables
-	ModelPtr Model;
 	ModelPtr Model2;
 
-	ModelPtr WallStack[100];
+	ModelPtr WallStack[118];
 	ModelPtr FloorStack[10];
 
 	ModelPtr Lamp1;
@@ -105,4 +104,10 @@ private:
 	PickupPtr CoinPickup[11];
 	ObstaclePtr BoxObstacle[16];
 	ObstaclePtr BarrelObstacle[10];
+	ObstaclePtr Bulbs[10];
+	ObstaclePtr Lamps[10];
+
+	GameObjectPtr ObjectsInGame[10];
+
+
 };
