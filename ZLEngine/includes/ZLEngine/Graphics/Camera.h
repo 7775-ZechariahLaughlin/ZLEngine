@@ -4,7 +4,7 @@
 
 struct STCameraData {
 	// how fast the camera can move
-	float Speed = 5.0f;
+	float Speed = 8.0f;
 
 	// basically the zoom
 	// how much of the view space the camera can see - in degrees

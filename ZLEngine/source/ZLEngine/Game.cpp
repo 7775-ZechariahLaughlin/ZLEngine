@@ -77,7 +77,7 @@ void Game::DeleteAllModels()
 		RemoveModelFromGame(BoxObstacle[i]->ReturnObstacleModel());
 	}
 	// destroy barrels;
-	for (zluint i = 0; i < 10; i++) {
+	for (zluint i = 0; i < 6; i++) {
 		RemoveModelFromGame(BarrelObstacle[i]->ReturnObstacleModel());
 	}
 	// destroy bulbs
@@ -147,7 +147,7 @@ void Game::SpawnAllObjects()
 	//TODO: Tidy up and move into a SpawnHandler which will run as a single function in the main
 	// create meshes
 	// handle archway/gate creation
-	for (zluint i = 0; i < 10; i++) {
+	for (zluint i = 0; i < 9; i++) {
 		Archways[i] = make_shared<Gate>(Graphics->ImportModel("game/models/Archway.obj", TextureShader));
 		Archways[i]->ReturnGateModel()->SetMaterialBySlot(0, MArchway);
 		Archways[i]->ReturnGateModel()->Transform.Scale = Vector3(0.6f);
@@ -175,7 +175,7 @@ void Game::SpawnAllObjects()
 	for (zluint i = 0; i < 6; i++) {
 		SkullPickup[i] = make_shared<Pickup>(Graphics->ImportModel("game/models/Skull_Pickup.fbx", TextureShader), 100);
 		SkullPickup[i]->ReturnPickupModel()->SetMaterialBySlot(0, MSkull);
-		SkullPickup[i]->ReturnPickupModel()->Transform.Scale = Vector3(0.15f);
+		SkullPickup[i]->ReturnPickupModel()->Transform.Scale = Vector3(0.30f);
 	}
 
 	// handle box obstacle creation
@@ -185,7 +185,7 @@ void Game::SpawnAllObjects()
 		BoxObstacle[i]->ReturnObstacleModel()->SetMaterialBySlot(1, MBox);
 	}
 	// handle barrel obstacle creation
-	for (zluint i = 0; i < 10; i++) {
+	for (zluint i = 0; i < 6; i++) {
 		BarrelObstacle[i] = make_shared<Obstacle>(Graphics->ImportModel("game/models/Wood_Barrel.obj", TextureShader));
 		BarrelObstacle[i]->ReturnObstacleModel()->Transform.Scale = Vector3(0.15f);
 		BarrelObstacle[i]->ReturnObstacleModel()->SetMaterialBySlot(1, MBarrel);
@@ -237,15 +237,14 @@ void Game::MoveAllObjects()
 
 	// transform archways
 	Archways[0]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[1]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[2]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[3]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[4]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[5]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[6]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[7]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[8]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Archways[9]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[1]->ReturnGateModel()->Transform.Location = Vector3(-6.0f, 6.0f, -34.0f);
+	Archways[2]->ReturnGateModel()->Transform.Location = Vector3(-32.0f, 6.0f, -34.0f);
+	Archways[3]->ReturnGateModel()->Transform.Location = Vector3(-95.0f, 6.0f, -25.0f);
+	Archways[4]->ReturnGateModel()->Transform.Location = Vector3(-50.0f, 6.0f, -3.0f);
+	Archways[5]->ReturnGateModel()->Transform.Location = Vector3(-92.0f, 6.0f, -10.0f);
+	Archways[6]->ReturnGateModel()->Transform.Location = Vector3(-100.5f, 6.0f, -37.0f);
+	Archways[7]->ReturnGateModel()->Transform.Location = Vector3(-100.4f, 6.0f, -52.5f);
+	Archways[8]->ReturnGateModel()->Transform.Location = Vector3(-28.5f, 6.0f, -55.0f);
 
 	// transform box obstacles
 	BoxObstacle[0]->ReturnObstacleModel()->Transform.Location = Vector3(3.4f, 1.7f, 1.2f);
@@ -254,28 +253,31 @@ void Game::MoveAllObjects()
 	BoxObstacle[3]->ReturnObstacleModel()->Transform.Location = Vector3(5.8f, 1.7f, -6.0f);
 	BoxObstacle[4]->ReturnObstacleModel()->Transform.Location = Vector3(5.8f, 1.7f, -8.4f);
 	BoxObstacle[5]->ReturnObstacleModel()->Transform.Location = Vector3(3.0f, 1.7f, -13.8f);
-	BoxObstacle[6]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 1.7f, -58.0f);
+	BoxObstacle[6]->ReturnObstacleModel()->Transform.Location = Vector3(-26.0f, 1.7f, -58.5f);
 	BoxObstacle[7]->ReturnObstacleModel()->Transform.Location = Vector3(-26.0f, 1.7f, -56.1f);
 	BoxObstacle[8]->ReturnObstacleModel()->Transform.Location = Vector3(-26.0f, 4.1f, -58.5f);
-	BoxObstacle[9]->ReturnObstacleModel()->Transform.Location = Vector3(-26.0f, 1.7f, -58.5f);
-	BoxObstacle[10]->ReturnObstacleModel()->Transform.Location = Vector3(-23.6f, 3.4f, -58.5f);
-	BoxObstacle[11]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[12]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[13]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[14]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[15]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[16]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[17]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[18]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
-	BoxObstacle[19]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[9]->ReturnObstacleModel()->Transform.Location = Vector3(-23.6f, 1.7f, -58.5f);
+	BoxObstacle[10]->ReturnObstacleModel()->Transform.Location = Vector3(-21.2f, 1.7f, -58.5f);
+	BoxObstacle[11]->ReturnObstacleModel()->Transform.Location = Vector3(-48.0f, 1.7f, 2.2f);
+	BoxObstacle[12]->ReturnObstacleModel()->Transform.Location = Vector3(-50.4f, 1.7f, 1.0f);
+	BoxObstacle[13]->ReturnObstacleModel()->Transform.Location = Vector3(-52.6f, 1.7f, 1.0f);
+	BoxObstacle[14]->ReturnObstacleModel()->Transform.Location = Vector3(-47.5f, 1.7f, -21.0f);
+	BoxObstacle[15]->ReturnObstacleModel()->Transform.Location = Vector3(-95.0f, 1.7f, -28.0f);
+	BoxObstacle[16]->ReturnObstacleModel()->Transform.Location = Vector3(-38.0f, 1.7f, -21.8f);
+	BoxObstacle[17]->ReturnObstacleModel()->Transform.Location = Vector3(-35.4f, 1.7f, -21.8f);
+	BoxObstacle[18]->ReturnObstacleModel()->Transform.Location = Vector3(-72.0f, 1.7f, -65.0f);
+	BoxObstacle[19]->ReturnObstacleModel()->Transform.Location = Vector3(-74.4f, 1.7f, -65.0f);
 
 	// transform barrel obstacles
 	BarrelObstacle[0]->ReturnObstacleModel()->Transform.Location = Vector3(3.5f, 0.5f, -3.4f);
 	BarrelObstacle[1]->ReturnObstacleModel()->Transform.Location = Vector3(4.8f, 0.5f, -10.5f);
-	BarrelObstacle[2]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 2.0f, -40.0f);
-	BarrelObstacle[3]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 0.5f, -40.0f);
+	BarrelObstacle[2]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 2.0f, -41.0f);
+	BarrelObstacle[3]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 0.5f, -41.0f);
+	BarrelObstacle[4]->ReturnObstacleModel()->Transform.Location = Vector3(-30.0f, 0.5f, -53.0f);
+	BarrelObstacle[5]->ReturnObstacleModel()->Transform.Location = Vector3(-50.0f, 0.5f, -25.0f);
+	
 
-	// transform pickups
+	// transform coins
 	CoinPickup[0]->ReturnPickupModel()->Transform.Location = Vector3(-9.0f, 0.5f, 9.0f);
 	CoinPickup[1]->ReturnPickupModel()->Transform.Location = Vector3(10.0f, 0.5f, -11.5f);
 	CoinPickup[2]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -12.5f);
@@ -284,9 +286,18 @@ void Game::MoveAllObjects()
 	CoinPickup[5]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
 	CoinPickup[6]->ReturnPickupModel()->Transform.Location = Vector3(8.5f, 0.5f, -10.5f);
 	CoinPickup[7]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
-	CoinPickup[8]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
-	CoinPickup[9]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
-	CoinPickup[10]->ReturnPickupModel()->Transform.Location = Vector3(-13.0f, 0.5f, -6.0f);
+	CoinPickup[8]->ReturnPickupModel()->Transform.Location = Vector3(-34.6f, 0.5f, -15.0f);
+	CoinPickup[9]->ReturnPickupModel()->Transform.Location = Vector3(-94.0f, 0.5f, -3.0f);
+	CoinPickup[10]->ReturnPickupModel()->Transform.Location = Vector3(-92.0f, 0.5f, 0.0f);
+	CoinPickup[11]->ReturnPickupModel()->Transform.Location = Vector3(-48.0f, 0.5f, 3.0f);
+
+	// transform skulls
+	SkullPickup[0]->ReturnPickupModel()->Transform.Location = Vector3(-3.0f, 1.0f, -30.0f);
+	SkullPickup[1]->ReturnPickupModel()->Transform.Location = Vector3(-34.6f, 1.0f, -13.0f);
+	SkullPickup[2]->ReturnPickupModel()->Transform.Location = Vector3(-31.0f, 1.0f, -35.0f);
+	SkullPickup[3]->ReturnPickupModel()->Transform.Location = Vector3(-95.0f, 1.0f, -8.0f);
+	SkullPickup[4]->ReturnPickupModel()->Transform.Location = Vector3(-100.0f, 1.0f, -35.0f);
+	SkullPickup[5]->ReturnPickupModel()->Transform.Location = Vector3(-100.4f, 1.0f, -55.0f);
 
 	// transform floors
 	FloorStack[0]->Transform.Location = Vector3(0.0f, 0.5f, -1.5f);
@@ -541,6 +552,9 @@ void Game::RotateAllObjects()
 	Walls[116]->ReturnObstacleModel()->Transform.Rotation.y += 90.0f;
 	Walls[117]->ReturnObstacleModel()->Transform.Rotation.y += 90.0f;
 
+	Archways[3]->ReturnGateModel()->Transform.Rotation.y += 90.0f;
+	Archways[4]->ReturnGateModel()->Transform.Rotation.y += 90.0f;
+
 }
 void Game::ScaleFloors()
 {
@@ -556,6 +570,102 @@ void Game::ScaleFloors()
 	FloorStack[8]->Transform.Scale = Vector3(30.0f, 1.0f, 24.0f);
 
 }
+void Game::AddAllHitboxes()
+{
+	// add collisions to archways
+	Archways[0]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[1]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[2]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[3]->ReturnGateModel()->AddCollisionToModel(Vector3(1.5f, 7.0f, 6.0f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[4]->ReturnGateModel()->AddCollisionToModel(Vector3(1.5f, 7.0f, 6.0f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[5]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[6]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[7]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
+	Archways[8]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
+
+	// add collision to floors
+	FloorStack[0]->AddCollisionToModel(Vector3(24.0f, 1.0f, 27.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[1]->AddCollisionToModel(Vector3(12.0f, 1.0f, 36.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[2]->AddCollisionToModel(Vector3(36.0f, 1.0f, 12.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[3]->AddCollisionToModel(Vector3(17.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[4]->AddCollisionToModel(Vector3(12.0f, 1.0f, 42.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[5]->AddCollisionToModel(Vector3(52.0f, 1.0f, 36.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[6]->AddCollisionToModel(Vector3(6.5f, 1.0f, 15.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[7]->AddCollisionToModel(Vector3(14.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
+	FloorStack[8]->AddCollisionToModel(Vector3(30.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
+
+	// add collisions to walls rotated 90 degrees
+	for (zluint i = 0; i < 5; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 11; i < 13; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 15; i < 26; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 42; i < 44; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	Walls[47]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	for (zluint i = 50; i < 66; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 84; i < 96; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 99; i < 103; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 113; i < 118; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+
+	// add collisions to normal rotation walls
+	for (zluint i = 5; i < 11; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 13; i < 15; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 26; i < 42; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 44; i < 47; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 48; i < 50; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 66; i < 84; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 96; i < 99; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+	for (zluint i = 103; i < 113; i++) {
+		Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+
+	// add collisions to coins
+	for (zluint i = 0; i < 12; i++) {
+		CoinPickup[i]->ReturnPickupModel()->AddCollisionToModel(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.0f, 0.7f, 0.0f));
+	}
+	// add collisions to skulls
+	for (zluint i = 0; i < 6; i++) {
+		SkullPickup[i]->ReturnPickupModel()->AddCollisionToModel(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.0f, 0.7f, 0.0f));
+	}
+	// add collisions to box obstacles
+	for (zluint i = 0; i < 20; i++) {
+		BoxObstacle[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(2.4f, 2.4f, 2.4f), Vector3(0.0f));
+	}
+
+	// add collisions to the lamps
+	for (int i = 0; i < 10; i++) {
+		Lamps[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.5f, 5.4f, 1.5f), Vector3(0.0f, 2.7f, 0.0f));
+	}
+
+}
 void Game::DetectAndResolveCollisions(Vector3 CameraInput)
 {
 	PositionToMove = Graphics->EngineDefaultCam->CalculateMovementInput(CameraInput, CurrentState);
@@ -565,7 +675,6 @@ void Game::DetectAndResolveCollisions(Vector3 CameraInput)
 	for (zluint i = 0; i < 118; i++) {
 		// check if collision with a wall
 		if (Walls[i] != nullptr && Graphics->EngineDefaultCam->GetNextPosition()->IsOverlapping(*Walls[i]->ReturnObstacleModel()->GetCollision())) {
-			cout << "Colliding Wall" << endl;
 			// collision happened, so stay at original location
 			PositionToMove = Graphics->EngineDefaultCam->GetTransforms().Location;
 		}
@@ -574,11 +683,40 @@ void Game::DetectAndResolveCollisions(Vector3 CameraInput)
 	for (zluint i = 0; i < 9; i++) {
 		// check if collision with floor
 		if (FloorStack[i] != nullptr && Graphics->EngineDefaultCam->GetNextPosition()->IsOverlapping(*FloorStack[i]->GetCollision())) {
-			cout << "Colliding Wall" << endl;
 			// collision happened, so move but stay above the floor
 			PositionToMove.y = Graphics->EngineDefaultCam->GetTransforms().Location.y;
 		}
 	}
+	for (zluint i = 0; i < 20; i++) {
+		// check if collision with a box
+		if (BoxObstacle[i] != nullptr && Graphics->EngineDefaultCam->GetNextPosition()->IsOverlapping(*BoxObstacle[i]->ReturnObstacleModel()->GetCollision())) {
+			// collision happened, so stay at original location
+			PositionToMove = Graphics->EngineDefaultCam->GetTransforms().Location;
+		}
+	}
+	for (zluint i = 0; i < 10; i++) {
+		// check if collision with a box
+		if (Lamps[i] != nullptr && Graphics->EngineDefaultCam->GetNextPosition()->IsOverlapping(*Lamps[i]->ReturnObstacleModel()->GetCollision())) {
+			// collision happened, so stay at original location
+			PositionToMove = Graphics->EngineDefaultCam->GetTransforms().Location;
+		}
+	}
+	for (zluint i = 0; i < 9; i++) {
+		if (Archways[i] != nullptr && Graphics->EngineDefaultCam->GetCameraCollision()->IsOverlapping(*Archways[i]->ReturnGateModel()->GetCollision())) {
+			RemoveModelFromGame(Archways[i]->ReturnGateModel());
+		}
+	}
+	for (zluint i = 0; i < 12; i++) {
+		if (CoinPickup[i] != nullptr && Graphics->EngineDefaultCam->GetCameraCollision()->IsOverlapping(*CoinPickup[i]->ReturnPickupModel()->GetCollision())) {
+			RemoveModelFromGame(CoinPickup[i]->ReturnPickupModel());
+		}
+	}
+	for (zluint i = 0; i < 6; i++) {
+		if (SkullPickup[i] != nullptr && Graphics->EngineDefaultCam->GetCameraCollision()->IsOverlapping(*SkullPickup[i]->ReturnPickupModel()->GetCollision())) {
+			RemoveModelFromGame(SkullPickup[i]->ReturnPickupModel());
+		}
+	}
+
 	// check if new camera position isn't the same as the current position
 	if (PositionToMove != Graphics->EngineDefaultCam->GetTransforms().Location) {
 		// move the camera
@@ -618,85 +756,7 @@ void Game::Run()
 
 		ScaleFloors();
 
-		// add collisions to models
-		Archways[0]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
-
-		// add collision to floors
-		FloorStack[0]->AddCollisionToModel(Vector3(24.0f, 1.0f, 27.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[1]->AddCollisionToModel(Vector3(12.0f, 1.0f, 36.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[2]->AddCollisionToModel(Vector3(36.0f, 1.0f, 12.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[3]->AddCollisionToModel(Vector3(17.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[4]->AddCollisionToModel(Vector3(12.0f, 1.0f, 42.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[5]->AddCollisionToModel(Vector3(52.0f, 1.0f, 36.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[6]->AddCollisionToModel(Vector3(6.5f, 1.0f, 15.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[7]->AddCollisionToModel(Vector3(14.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
-		FloorStack[8]->AddCollisionToModel(Vector3(30.0f, 1.0f, 24.0f), Vector3(0.0f, -0.5f, 0.0f));
-
-		// add collisions to walls rotated 90 degrees
-		for (zluint i = 0; i < 5; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 11; i < 13; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 15; i < 26; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 42; i < 44; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		Walls[47]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f),  Vector3(0.0f, 2.7f, 0.0f));
-		for (zluint i = 50; i < 66; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 84; i < 96; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 99; i < 103; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f),  Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 113; i < 118; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.2f, 5.8f, 5.8f),  Vector3(0.0f, 2.7f, 0.0f));
-		}
-
-		// add collisions to normal rotation walls
-		for (zluint i = 5; i < 11; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 13; i < 15; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 26; i < 42; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 44; i < 47; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 48; i < 50; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 66; i < 84; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 96; i < 99; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-		for (zluint i = 103; i < 113; i++) {
-			Walls[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(5.8f, 5.8f, 1.2f), Vector3(0.0f, 2.7f, 0.0f));
-		}
-
-		// add collisions to coins
-		for (zluint i = 0; i < 11; i++) {
-			CoinPickup[i]->ReturnPickupModel()->AddCollisionToModel(Vector3(0.8f, 0.8f, 0.8f), Vector3(0.0f, 0.7f, 0.0f));
-		}
-		// add collisions to box obstacles
-		for (zluint i = 0; i < 16; i++) {
-			BoxObstacle[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(2.4f, 2.4f, 2.4f), Vector3(0.0f));
-		}
-		// add collisions to the lamps
-		for (int i = 0; i < 10; i++) {
-			Lamps[i]->ReturnObstacleModel()->AddCollisionToModel(Vector3(1.5f, 5.4f, 1.5f), Vector3(0.0f, 2.7f, 0.0f));
-		}
+		AddAllHitboxes();
 
 		
 	}
@@ -723,7 +783,6 @@ void Game::ProcessInput()
 
 	Vector3 CameraInput = Vector3(0.0f);
 	float MoveSpeed = 5.0f;
-	float MaxJumpHeight = 8.0f;
 	Graphics->EngineDefaultCam->SetCameraSpeed(5.0f);
 	CDirection CamDirections = Graphics->EngineDefaultCam->GetDirections();
 
@@ -754,25 +813,20 @@ void Game::ProcessInput()
 	}
 	// move cam down
 	if (GameInput->IsKeyDown(SDL_SCANCODE_E)) {
-		if (!OnFloor) {
-			CameraInput += -CamDirections.Up;
-			cout << "Movement | Moving Down..." << endl;
-		}
-		else {
-			cout << "Movement | On the floor!" << endl;
-		}
+		CameraInput += -CamDirections.Up;
+		cout << "Movement | Moving Down..." << endl;
 	}
 	// multiply the move speed for running
 	if (GameInput->IsKeyDown(SDL_SCANCODE_LSHIFT)) {
 		// speed up the player movement
-		Graphics->EngineDefaultCam->SetCameraSpeed(15.0f);
+		Graphics->EngineDefaultCam->SetCameraSpeed(12.0f);
 		cout << "Movement | Running..." << endl;
 	}
 	// divide the move speed for crouching
 	if (GameInput->IsKeyDown(SDL_SCANCODE_C)) {
 		cout << "Movement | Crouching..." << endl;
 		// slow down the player movement
-		Graphics->EngineDefaultCam->SetCameraSpeed(2.75f);
+		Graphics->EngineDefaultCam->SetCameraSpeed(4.0f);
 
 	}
 	// check right mouse button is held, change to editor mode if held
@@ -788,12 +842,20 @@ void Game::ProcessInput()
 			cout << "Mode | Changing to Player Mode" << endl;
 			CurrentState = PlayerState::PlayerMode;
 			GameInput->ShowCursor(false);
+			Graphics->EngineDefaultCam->Translate(Vector3(Graphics->EngineDefaultCam->GetTransforms().Location.x, 2.5f, Graphics->EngineDefaultCam->GetTransforms().Location.z));
 		}
 	}
 
 	CameraInput *= MoveSpeed * GetFDeltaTime();
 
 	DetectAndResolveCollisions(CameraInput);
+
+	for (zluint i = 0; i < 12; i++) {
+		CoinPickup[i]->ReturnPickupModel()->Transform.Rotation.y += 120.0f * GetFDeltaTime();
+	}
+	for (zluint i = 0; i < 6; i++) {
+		SkullPickup[i]->ReturnPickupModel()->Transform.Rotation.y += 120.0f * GetFDeltaTime();
+	}
 
 	Graphics->EngineDefaultCam->RotatePitch(-GameInput->MouseYDelta);
 	Graphics->EngineDefaultCam->RotateYaw(GameInput->MouseXDelta);
@@ -838,14 +900,6 @@ void Game::Draw()
 
 	// pointer to the camera collision box
 	CollisionPtr CamCol = Graphics->EngineDefaultCam->GetCameraCollision();
-
-	CamCol->DebugDraw(Vector3(0.0f, 1.0f, 0.0f));
-	Graphics->EngineDefaultCam->GetNextPosition()->DebugDraw(Vector3(0.0f, 1.0f, 0.0f));
-
-	Lamps[0]->ReturnObstacleModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	Archways[0]->ReturnGateModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	CoinPickup[0]->ReturnPickupModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	BoxObstacle[0]->ReturnObstacleModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 
 	Graphics->PresentGraphics();
 }

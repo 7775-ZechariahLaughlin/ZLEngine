@@ -17,4 +17,5 @@ float Player::GetMoveSpeed()
 
 void Player::UpdatePoints(zluint Amount)
 {
+	PlayerData.Points += Amount;
 }

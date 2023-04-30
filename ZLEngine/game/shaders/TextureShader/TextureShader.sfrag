@@ -68,7 +68,7 @@ void main() {
 
 	// create a custom directional light
 	DirLights[0].Colour = vec3(1.0f);
-	DirLights[0].Direction = vec3(20.0f, -0.4f, 20.0f);
+	DirLights[0].Direction = vec3(20.0f, 2.0f, 20.0f);
 	DirLights[0].AmbientLight = vec3(0.001f);
 
 	// create a custom point light

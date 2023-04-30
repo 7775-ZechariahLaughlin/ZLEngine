@@ -55,6 +55,9 @@ public:
 	// floors are not as they require uneven scaling
 	void ScaleFloors();
 
+	// add hitboxes to models
+	void AddAllHitboxes();
+
 	// detect and resolve any collisions between the player camera and objects
 	void DetectAndResolveCollisions(Vector3 CameraInput);
 
@@ -109,15 +112,18 @@ private:
 	// stores the floors
 	ModelPtr FloorStack[10];
 
+	// stores the player
+	PlayerPtr PlayerOne;
+
 	// stores pickups
 	PickupPtr CoinPickup[12];
 	PickupPtr SkullPickup[6];
 
 	// stores all obstacles
 	ObstaclePtr BoxObstacle[20];
-	ObstaclePtr BarrelObstacle[10];
+	ObstaclePtr BarrelObstacle[6];
 	ObstaclePtr Bulbs[10];
 	ObstaclePtr Lamps[10];
 	ObstaclePtr Walls[118];
-	GatePtr Archways[10];
+	GatePtr Archways[9];
 };
