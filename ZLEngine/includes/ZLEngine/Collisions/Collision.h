@@ -79,4 +79,7 @@ protected:
 	Vector3 Min;
 	Vector3 Max;
 
+	// this determines whether the collision should be treated as a floor
+	bool FloorCollisionBox;
+
 };

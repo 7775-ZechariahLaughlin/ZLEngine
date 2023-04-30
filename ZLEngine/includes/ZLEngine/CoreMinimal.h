@@ -48,6 +48,9 @@ typedef shared_ptr<BoxCollision> BoxCollisionPtr;
 class GameObject;
 typedef shared_ptr<GameObject> GameObjectPtr;
 
+class Gate;
+typedef shared_ptr<Gate> GatePtr;
+
 class Pickup;
 typedef shared_ptr<Pickup> PickupPtr;
 
@@ -59,6 +62,9 @@ typedef shared_ptr<ScreenText> ScreenTextPtr;
 
 class Player;
 typedef shared_ptr<Player> PlayerPtr;
+
+class SpawnHandler;
+typedef shared_ptr<SpawnHandler> SpawnHandlerPtr;
 
 //useful for shape data and VAOs Matrices
 typedef vector<float> PositionMatrix;
@@ -105,4 +111,10 @@ enum class ObstacleTypes {
 enum class PickupTypes {
 	Coin = 0,
 	Skull
+};
+
+// the states the player can have, includes EditorMode, PlayerMode
+enum class PlayerState {
+	EditorMode = 0,
+	PlayerMode,
 };

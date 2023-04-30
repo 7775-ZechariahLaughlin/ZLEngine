@@ -26,7 +26,7 @@ void Collision::DebugDraw(Vector3 Colour)
 {
 }
 
-BoxCollision::BoxCollision(Vector3 Location, Vector3 Offset, Vector3 Dimensions) : 
+BoxCollision::BoxCollision(Vector3 Location, Vector3 Offset, Vector3 Dimensions): 
 	Collision(Location, Offset)
 {
 	this->Dimensions = Dimensions;

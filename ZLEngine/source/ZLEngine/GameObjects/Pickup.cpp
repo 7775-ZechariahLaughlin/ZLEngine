@@ -7,24 +7,24 @@
 
 Pickup::Pickup()
 {
-	Model = nullptr;
+	PickupModel = nullptr;
 	PointValue = 0;
 }
 
 Pickup::Pickup(ModelPtr ModelToUse, zluint PointValue)
 {
-	this->Model = ModelToUse;
+	this->PickupModel = ModelToUse;
 	this->PointValue = PointValue;
 }
 
 Pickup::~Pickup()
 {
-	Model = nullptr;
+	PickupModel = nullptr;
 }
 
 ModelPtr Pickup::ReturnPickupModel()
 {
-	return Model;
+	return PickupModel;
 }
 
 zluint Pickup::ReturnPickupPointValue()

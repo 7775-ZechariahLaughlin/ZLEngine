@@ -20,7 +20,7 @@ protected:
 	// stores the pickups point value
 	zluint PointValue;
 	// stores the model for the pickup
-	ModelPtr Model;
+	ModelPtr PickupModel;
 
 protected:
 

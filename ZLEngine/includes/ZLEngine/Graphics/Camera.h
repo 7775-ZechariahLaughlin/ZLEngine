@@ -18,7 +18,7 @@ struct STCameraData {
 	float FarClip = 1000.0f;
 
 	// how fast the camera rotates
-	float LookSensitivity = 0.2f;
+	float LookSensitivity = 0.15f;
 };
 class Camera {
 public: 
@@ -28,10 +28,7 @@ public:
 	void Translate(Vector3 Location);
 
 	// move the camera in a direction in 3D space
-	void AddMovementInput(Vector3 Direction);
-
-	// move the player in a direction in 3D space
-	void AddMovementInput(Vector3 Direction, PlayerPtr Player);
+	Vector3 CalculateMovementInput(Vector3 Direction, PlayerState State);
 
 	// return the transform data
 	CTransform GetTransforms() const { return Transform; }
@@ -57,6 +54,9 @@ public:
 
 	// zoom the camera with scroll wheel
 	void SetCameraFOV(float Amount);
+
+	// change the look sensitivity of the camera
+	void SetCameraLookSense(float Amount);
 
 	// update camera logic
 	void Update();
@@ -84,4 +84,7 @@ private:
 
 	// the current velocity of the camera
 	Vector3 Velocity;
+
+	// the new position for the camera to move to
+	Vector3 NewPosition;
 };

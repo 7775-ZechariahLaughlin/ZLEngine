@@ -151,7 +151,6 @@
     <ClInclude Include="includes\ZLEngine\Graphics\Vertex.h" />
     <ClInclude Include="includes\ZLEngine\Graphics\VertexArrayObject.h" />
     <ClInclude Include="includes\ZLEngine\Handlers\ScreenText.h" />
-    <ClInclude Include="includes\ZLEngine\Handlers\SpawnHandler.h" />
     <ClInclude Include="includes\ZLEngine\Input.h" />
     <ClInclude Include="includes\ZLEngine\Math\Transformations.h" />
     <ClInclude Include="includes\ZLEngine\GameObjects\GameObject.h" />
@@ -176,7 +175,6 @@
     <ClCompile Include="source\ZLEngine\Graphics\Texture.cpp" />
     <ClCompile Include="source\ZLEngine\Graphics\VertexArrayObject.cpp" />
     <ClCompile Include="source\ZLEngine\Handlers\ScreenText.cpp" />
-    <ClCompile Include="source\ZLEngine\Handlers\SpawnHandler.cpp" />
     <ClCompile Include="source\ZLEngine\Input.cpp" />
     <ClCompile Include="source\ZLEngine\Physics\Gravity.cpp" />
   </ItemGroup>

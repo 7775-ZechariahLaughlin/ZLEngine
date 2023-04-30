@@ -9,13 +9,13 @@ public:
 	Obstacle(ModelPtr ModelToUse);
 	~Obstacle();
 
-	// returns the pickups model
+	// returns the obstacle model
 	ModelPtr ReturnObstacleModel();
 
 public:
 
 protected:
-	// stores the model for the pickup
+	// stores the model for the obstacle
 	ModelPtr ObstacleModel;
 
 protected:

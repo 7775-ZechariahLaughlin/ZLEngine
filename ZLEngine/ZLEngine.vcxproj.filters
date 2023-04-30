@@ -75,9 +75,6 @@
     <ClInclude Include="includes\ZLEngine\Collisions\Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\ZLEngine\Handlers\SpawnHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="includes\ZLEngine\Physics\Gravity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,9 +135,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\ZLEngine\Collisions\Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ZLEngine\Handlers\SpawnHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\ZLEngine\Physics\Gravity.cpp">

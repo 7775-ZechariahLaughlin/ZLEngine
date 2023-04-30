@@ -1,5 +1,6 @@
 #pragma once
-#include "CoreMinimal.h"
+#include "ZlEngine/CoreMinimal.h"
+#include "ZLEngine/Math/Transformations.h"
 
 class Input;
 
@@ -38,6 +39,22 @@ public:
 	// remove a model from the viewport
 	void RemoveModelFromGame(ModelPtr ModelToRemove);
 
+	// used to clean up all models in the game
+	void DeleteAllModels();
+
+	// spawns all the objects used in the game
+	void SpawnAllObjects();
+
+	// translates all the objects to their start location
+	void MoveAllObjects();
+
+	// rotates all objects to their default rotation
+	void RotateAllObjects();
+
+	// scales the floors, all other objects are scaled when spawned
+	// floors are not as they require uneven scaling
+	void ScaleFloors();
+
 private: 
 
 	Game();
@@ -61,6 +78,7 @@ private:
 	void CloseGame();
 
 private: 
+
 	// boolean that ends the game
 	bool bIsGameOver;
 
@@ -73,41 +91,34 @@ private:
 	// shared pointer to the graphics class
 	GraphicsEnginePtr Graphics;
 
-	// shared pointer to the pickup class
-	PickupPtr Pickups;
-
 	// the time between each frame
 	double DeltaTime;
 
 	// read the input of the player
 	Input* GameInput;
 
+	// the current mode the player is in
+	PlayerState CurrentState;
+
+	// the next position the player should be moving to
+	Vector3 PositionToMove;
 
 	//temporary mesh variables
 	ModelPtr Model2;
 
-	ModelPtr WallStack[118];
+	// stores the floors
 	ModelPtr FloorStack[10];
 
-	ModelPtr Lamp1;
-	ModelPtr Lamp2;
-	ModelPtr Coin1;
-	ModelPtr Coin;
 	ModelPtr Skull1;
-	ModelPtr Barrel1;
-	ModelPtr Box1;
-	ModelPtr Box2;
 	ModelPtr Archway1;
 	ModelPtr Archway2;
-	// pickup variables
-
+	// stores pickups
 	PickupPtr CoinPickup[11];
-	ObstaclePtr BoxObstacle[16];
+
+	// stores all obstacles
+	ObstaclePtr BoxObstacle[20];
 	ObstaclePtr BarrelObstacle[10];
 	ObstaclePtr Bulbs[10];
 	ObstaclePtr Lamps[10];
-
-	GameObjectPtr ObjectsInGame[10];
-
-
+	ObstaclePtr Walls[118];
 };

@@ -7,9 +7,6 @@ Camera::Camera()
 {
 	UpdateDirectionVectors();
 
-	Transform.Location = Vector3(8.0f, 2.5f, 8.0f);
-	Transform.Rotation.y = 180.0f;
-
 	Transform.Location -= Directions.Forward * 2.0f;
 
 	// @param1 - Position of collision
@@ -24,26 +21,37 @@ void Camera::Translate(Vector3 Location)
 	Transform.Location = Location;
 }
 
-void Camera::AddMovementInput(Vector3 Direction)
+Vector3 Camera::CalculateMovementInput(Vector3 Direction, PlayerState State)
 {
 	if (glm::length(Direction) == 0) {
-		return;
+		return Transform.Location;
 	}
-	// divive the vector by it's length
+	// divide the vector by it's length
 	// don't normalise if the direction is 0
 	Direction = glm::normalize(Direction);
 
-	// set the velocity of the camera using the speed and input direction
-	Velocity = Direction * (CameraData.Speed * Game::GetGameInstance().GetFDeltaTime());
+	switch (State) {
+	case PlayerState::EditorMode:
+		// set the velocity of the camera using the speed and input direction
+		Velocity = Direction * (CameraData.Speed * Game::GetGameInstance().GetFDeltaTime());
 
-	// create a new location for the camera based on it's position and current velocity
-	Vector3 NewPosition = Transform.Location + Velocity;
+		// create a new location for the camera based on it's position and current velocity
+		NewPosition = Transform.Location + Velocity;
+		break;
+	case PlayerState::PlayerMode:
+		Direction.y = 0.0f;
+		// set the velocity of the camera using the speed and input direction
+		Velocity = Direction * (CameraData.Speed * Game::GetGameInstance().GetFDeltaTime());
 
-	// make sure the camera has actually been told to move
-	if (Transform.Location != NewPosition) {
-		// move the camera to the new position
-		Translate(NewPosition);
+		// create a new location for the camera based on it's position and current velocity
+		NewPosition = Transform.Location + Velocity;
+		break;
+	default:
+		cout << "Camera | Unable to find position to move, no Player State set" << endl;
+		break;
 	}
+
+	return NewPosition;
 }
 
 glm::mat4 Camera::GetViewMatrix() const
@@ -91,7 +99,12 @@ void Camera::SetCameraSpeed(float Amount)
 
 void Camera::SetCameraFOV(float Amount)
 {
+	CameraData.FOV = Amount;
+}
 
+void Camera::SetCameraLookSense(float Amount)
+{
+	CameraData.LookSensitivity = Amount;
 }
 
 void Camera::Update()
