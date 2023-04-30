@@ -64,6 +64,9 @@ public:
 	// get the collisiuon for the camera
 	CollisionPtr GetCameraCollision() const { return CameraCollision; }
 
+	// return the next collision point for the camera
+	CollisionPtr GetNextPosition() const { return NextPositionCollision; }
+
 private:
 
 	// find the current direction vectors based on the rotation of the YAW and PITCH of the camera
@@ -80,7 +83,11 @@ private:
 	// hold all the extra camera info
 	STCameraData CameraData;
 
+	// the collision box for the camera
 	CollisionPtr CameraCollision;
+
+	// a collision box for the next position the camera could be in
+	CollisionPtr NextPositionCollision;
 
 	// the current velocity of the camera
 	Vector3 Velocity;

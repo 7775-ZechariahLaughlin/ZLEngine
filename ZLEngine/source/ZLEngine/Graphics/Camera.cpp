@@ -13,6 +13,7 @@ Camera::Camera()
 	// @param2 - Offset of the location
 	// @param3 - Size of the camera collision
 	CameraCollision = make_shared<BoxCollision>(Transform.Location, Vector3(0.0f, -1.0f, 0.0f), Vector3(1.0f, 2.5f, 1.0f));
+	NextPositionCollision = make_shared<BoxCollision>(Transform.Location, Vector3(0.0f, -1.0f, 0.0f), Vector3(1.0f, 2.5f, 1.0f));
 
 }
 

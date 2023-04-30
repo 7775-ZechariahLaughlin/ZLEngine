@@ -55,6 +55,9 @@ public:
 	// floors are not as they require uneven scaling
 	void ScaleFloors();
 
+	// detect and resolve any collisions between the player camera and objects
+	void DetectAndResolveCollisions(Vector3 CameraInput);
+
 private: 
 
 	Game();

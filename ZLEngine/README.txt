@@ -3,7 +3,23 @@ Contributors: Zechariah Laughlin (Lead Programmer/Developer)
 
 === Description ===
 This is a simple game made to demonstrate the functions of the ZLENGINE 3D Engine. 
-You walk through gates and collect coins for points in the game.
+You walk through gates and collect coins in the game.
+
+=== Controls ===
+
+Movement:
+W - Move Forward
+S - Move Backward
+A - Move Left
+D - Move Right
+Q - Move Up
+E - Move Down
+
+Modifiers:
+C - Walk
+LShift - Run
+Right Mouse (Hold) - Swap to Editor Mode
+
 === Credits ===
 --Textures: 
 

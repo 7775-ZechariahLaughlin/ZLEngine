@@ -823,6 +823,15 @@ void Game::Draw()
 	Graphics->EngineDefaultCam->GetNextPosition()->DebugDraw(Vector3(0.0f, 1.0f, 0.0f));
 
 	Lamps[0]->ReturnObstacleModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[0]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[1]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[2]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[3]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[4]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[5]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[6]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[7]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	FloorStack[8]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	Archway1->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	CoinPickup[0]->ReturnPickupModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	BoxObstacle[0]->ReturnObstacleModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
