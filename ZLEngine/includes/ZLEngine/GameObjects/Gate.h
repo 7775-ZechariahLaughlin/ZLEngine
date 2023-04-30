@@ -5,6 +5,7 @@
 class Gate : public Obstacle {
 public:
 	Gate();
+	Gate(ModelPtr ModelToUse);
 	~Gate();
 
 	// returns the gate model

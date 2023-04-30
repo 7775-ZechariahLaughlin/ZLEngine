@@ -144,12 +144,15 @@ void Game::SpawnAllObjects()
 	MWarmth->EmissiveColour.TextureV3 = TWarmth;
 	MWarmth->EmissiveColour.MultiplierV3 = Vector3(0.5f);
 
-	// create a mesh
-	Archway1 = Graphics->ImportModel("game/models/Archway.obj", TextureShader);
-	Skull1 = Graphics->ImportModel("game/models/Skull_Pickup.fbx", TextureShader);
-
 	//TODO: Tidy up and move into a SpawnHandler which will run as a single function in the main
-	// handle wall creation, there will be lots so a loop will be easier to create textures, assign materials and scale them (walls will be the same size unless necessary to change)
+	// create meshes
+	// handle archway/gate creation
+	for (zluint i = 0; i < 10; i++) {
+		Archways[i] = make_shared<Gate>(Graphics->ImportModel("game/models/Archway.obj", TextureShader));
+		Archways[i]->ReturnGateModel()->SetMaterialBySlot(0, MArchway);
+		Archways[i]->ReturnGateModel()->Transform.Scale = Vector3(0.6f);
+	}
+	// handle wall creation
 	for (zluint i = 0; i < 118; i++) {
 		Walls[i] = make_shared<Obstacle>(Graphics->ImportModel("game/models/Concrete_Wall.obj", TextureShader));
 		Walls[i]->ReturnObstacleModel()->SetMaterialBySlot(1, MWall);
@@ -167,6 +170,11 @@ void Game::SpawnAllObjects()
 		CoinPickup[i] = make_shared<Pickup>(Graphics->ImportModel("game/models/Gold_Coin.obj", TextureShader), 50);
 		CoinPickup[i]->ReturnPickupModel()->SetMaterialBySlot(1, MCoin);
 		CoinPickup[i]->ReturnPickupModel()->Transform.Scale = Vector3(0.33f);
+	}
+	for (zluint i = 0; i < 11; i++) {
+		SkullPickup[i] = make_shared<Pickup>(Graphics->ImportModel("game/models/Skull_Pickup.fbx", TextureShader), 100);
+		SkullPickup[i]->ReturnPickupModel()->SetMaterialBySlot(0, MSkull);
+		SkullPickup[i]->ReturnPickupModel()->Transform.Scale = Vector3(0.15f);
 	}
 
 	// handle box obstacle creation
@@ -198,16 +206,11 @@ void Game::SpawnAllObjects()
 		Lamps[i]->ReturnObstacleModel()->SetMaterialBySlot(4, MLampPost);
 	}
 
-	// set materials of the models
-	// misc models
-	Archway1->SetMaterialBySlot(0, MArchway);
-	Skull1->SetMaterialBySlot(1, MSkull);
-
 }
 void Game::MoveAllObjects()
 {
 	// transform the models location 
-		// transform misc models
+	// transform lightbulb for each lamp
 	Bulbs[0]->ReturnObstacleModel()->Transform.Location = Vector3(10.0f, 5.2f, 10.0f);
 	Bulbs[1]->ReturnObstacleModel()->Transform.Location = Vector3(-9.0f, 5.2f, 10.8f);
 	Bulbs[2]->ReturnObstacleModel()->Transform.Location = Vector3(-10.0f, 5.2f, -10.0f);
@@ -219,6 +222,7 @@ void Game::MoveAllObjects()
 	Bulbs[8]->ReturnObstacleModel()->Transform.Location = Vector3(-102.0f, 5.2f, -53.0f);
 	Bulbs[9]->ReturnObstacleModel()->Transform.Location = Vector3(-65.0f, 5.2f, -65.0f);
 
+	// transform lamps
 	Lamps[0]->ReturnObstacleModel()->Transform.Location = Vector3(10.0f, 0.5f, 10.0f);
 	Lamps[1]->ReturnObstacleModel()->Transform.Location = Vector3(-9.0f, 0.5f, 10.8f);
 	Lamps[2]->ReturnObstacleModel()->Transform.Location = Vector3(-10.0f, 0.5f, -10.0f);
@@ -230,8 +234,17 @@ void Game::MoveAllObjects()
 	Lamps[8]->ReturnObstacleModel()->Transform.Location = Vector3(-102.0f, 0.5f, -53.0f);
 	Lamps[9]->ReturnObstacleModel()->Transform.Location = Vector3(-65.0f, 0.5f, -65.0f);
 
-	Archway1->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
-	Skull1->Transform.Location = Vector3(7.0f);
+	// transform archways
+	Archways[0]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[1]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[2]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[3]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[4]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[5]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[6]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[7]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[8]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
+	Archways[9]->ReturnGateModel()->Transform.Location = Vector3(-7.8f, 6.0f, -7.0f);
 
 	// transform box obstacles
 	BoxObstacle[0]->ReturnObstacleModel()->Transform.Location = Vector3(3.4f, 1.7f, 1.2f);
@@ -240,12 +253,26 @@ void Game::MoveAllObjects()
 	BoxObstacle[3]->ReturnObstacleModel()->Transform.Location = Vector3(5.8f, 1.7f, -6.0f);
 	BoxObstacle[4]->ReturnObstacleModel()->Transform.Location = Vector3(5.8f, 1.7f, -8.4f);
 	BoxObstacle[5]->ReturnObstacleModel()->Transform.Location = Vector3(3.0f, 1.7f, -13.8f);
-	BoxObstacle[6]->ReturnObstacleModel()->Transform.Location = Vector3(3.0f, 1.7f, -13.8f);
+	BoxObstacle[6]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 1.7f, -58.0f);
+	BoxObstacle[7]->ReturnObstacleModel()->Transform.Location = Vector3(-26.0f, 1.7f, -56.1f);
+	BoxObstacle[8]->ReturnObstacleModel()->Transform.Location = Vector3(-26.0f, 4.1f, -58.5f);
+	BoxObstacle[9]->ReturnObstacleModel()->Transform.Location = Vector3(-26.0f, 1.7f, -58.5f);
+	BoxObstacle[10]->ReturnObstacleModel()->Transform.Location = Vector3(-23.6f, 3.4f, -58.5f);
+	BoxObstacle[11]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[12]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[13]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[14]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[15]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[16]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[17]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[18]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
+	BoxObstacle[19]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 3.4f, -58.0f);
 
 	// transform barrel obstacles
 	BarrelObstacle[0]->ReturnObstacleModel()->Transform.Location = Vector3(3.5f, 0.5f, -3.4f);
 	BarrelObstacle[1]->ReturnObstacleModel()->Transform.Location = Vector3(4.8f, 0.5f, -10.5f);
-	BarrelObstacle[2]->ReturnObstacleModel()->Transform.Location = Vector3(4.8f, 0.5f, -12.1f);
+	BarrelObstacle[2]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 2.0f, -40.0f);
+	BarrelObstacle[3]->ReturnObstacleModel()->Transform.Location = Vector3(-25.0f, 0.5f, -40.0f);
 
 	// transform pickups
 	CoinPickup[0]->ReturnPickupModel()->Transform.Location = Vector3(-9.0f, 0.5f, 9.0f);
@@ -548,7 +575,9 @@ void Game::DetectAndResolveCollisions(Vector3 CameraInput)
 			PositionToMove.y = Graphics->EngineDefaultCam->GetTransforms().Location.y;
 		}
 	}
+	// check if new camera position isn't the same as the current position
 	if (PositionToMove != Graphics->EngineDefaultCam->GetTransforms().Location) {
+		// move the camera
 		Graphics->EngineDefaultCam->Translate(PositionToMove);
 	}
 
@@ -584,12 +613,9 @@ void Game::Run()
 		RotateAllObjects();
 
 		ScaleFloors();
-		
-		Archway1->Transform.Scale = Vector3(0.6f);
-
 
 		// add collisions to models
-		Archway1->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f) );
+		Archways[0]->ReturnGateModel()->AddCollisionToModel(Vector3(6.0f, 7.0f, 1.5f), Vector3(-0.5f, -3.0f, 9.75f));
 
 		// add collision to floors
 		FloorStack[0]->AddCollisionToModel(Vector3(24.0f, 1.0f, 27.0f), Vector3(0.0f, -0.5f, 0.0f));
@@ -697,9 +723,6 @@ void Game::ProcessInput()
 	Graphics->EngineDefaultCam->SetCameraSpeed(5.0f);
 	CDirection CamDirections = Graphics->EngineDefaultCam->GetDirections();
 
-	if (!OnFloor) {
-		
-	}
 	// move cam forward
 	if (GameInput->IsKeyDown(SDL_SCANCODE_W)) {
 		CameraInput += CamDirections.Forward;
@@ -797,15 +820,8 @@ void Game::Update()
 	// pointer to the camera collision box
 	CollisionPtr CamCol = Graphics->EngineDefaultCam->GetCameraCollision();
 
-	//TODO: Any collisions of models in the game with camera
-	for (zluint i = 0; i < 9; i++) {
-		if (CamCol->IsOverlapping(*FloorStack[i]->GetCollision())) {
-			OnFloor = true;
-			Jumping = false;
-		}
-	}
-	if (Archway1 != nullptr && CamCol->IsOverlapping(*Archway1->GetCollision())) {
-		RemoveModelFromGame(Archway1);
+	if (Archways[0] != nullptr && CamCol->IsOverlapping(*Archways[0]->ReturnGateModel()->GetCollision())) {
+		RemoveModelFromGame(Archways[0]->ReturnGateModel());
 	}
 
 }
@@ -823,16 +839,7 @@ void Game::Draw()
 	Graphics->EngineDefaultCam->GetNextPosition()->DebugDraw(Vector3(0.0f, 1.0f, 0.0f));
 
 	Lamps[0]->ReturnObstacleModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[0]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[1]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[2]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[3]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[4]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[5]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[6]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[7]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	FloorStack[8]->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
-	Archway1->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
+	Archways[0]->ReturnGateModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	CoinPickup[0]->ReturnPickupModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 	BoxObstacle[0]->ReturnObstacleModel()->GetCollision()->DebugDraw(Vector3(1.0f, 0.0f, 0.0f));
 

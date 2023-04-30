@@ -110,7 +110,7 @@ private:
 	ModelPtr FloorStack[10];
 
 	// stores pickups
-	PickupPtr CoinPickup[12];
+	PickupPtr CoinPickup[11];
 	PickupPtr SkullPickup[6];
 
 	// stores all obstacles
